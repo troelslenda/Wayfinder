@@ -199,5 +199,15 @@ function ding_wayfinder_strongarm() {
   );
 
   $export['node_options_wf_keyword'] = $strongarm;
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'weight_node_types';
+  $strongarm->value = array(
+    'wf_floor' => 'wf_floor',
+    'wf_keyword' => 'wf_keyword',
+  );
+
+  $export['weight_node_types'] = $strongarm;
   return $export;
 }
