@@ -42,3 +42,12 @@ function ding_wayfinder_node_info() {
   );
   return $items;
 }
+
+/**
+ * Implementation of hook_views_api().
+ */
+function ding_wayfinder_views_api() {
+  return array(
+    'api' => '2',
+  );
+}
