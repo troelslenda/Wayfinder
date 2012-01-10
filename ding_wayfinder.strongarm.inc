@@ -134,6 +134,40 @@ function ding_wayfinder_strongarm() {
   $strongarm = new stdClass;
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'content_extra_weights_wf_floor';
+  $strongarm->value = array(
+    'title' => '-5',
+    'revision_information' => '20',
+    'author' => '20',
+    'options' => '25',
+    'comment_settings' => '30',
+    'menu' => '-2',
+    'path' => '30',
+    'locations' => '0',
+    'path_redirect' => '30',
+  );
+
+  $export['content_extra_weights_wf_floor'] = $strongarm;
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'content_extra_weights_wf_keyword';
+  $strongarm->value = array(
+    'title' => '-5',
+    'revision_information' => '20',
+    'author' => '20',
+    'options' => '25',
+    'comment_settings' => '30',
+    'menu' => '-2',
+    'path' => '30',
+    'locations' => '0',
+    'path_redirect' => '30',
+  );
+
+  $export['content_extra_weights_wf_keyword'] = $strongarm;
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'language_content_type_wf_floor';
   $strongarm->value = '0';
 

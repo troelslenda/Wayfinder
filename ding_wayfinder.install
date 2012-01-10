@@ -1,0 +1,23 @@
+<?php
+
+/**
+ * Implements hook_install().
+ */
+function ding_wayfinder_install() {
+  $vocabulary = array(
+    'name' => t('Keywords Collection'),
+    'multiple' => 0,
+    'required' => 0,
+    'hierarchy' => 1,
+    'relations' => 0,
+    'module' => 'ding_wayfinder',
+    'weight' => -10,
+    'nodes' => array('wf_keyword' => 1),
+  );
+
+  taxonomy_save_vocabulary($vocabulary);
+
+}
+
+
+?>
