@@ -200,6 +200,11 @@ function ding_wayfinder_views_default_views() {
       'field' => 'weight',
       'relationship' => 'none',
     ),
+    'nothing' => array(
+      'id' => 'nothing',
+      'table' => 'views',
+      'field' => 'nothing',
+    ),
   ));
   $handler->override_option('sorts', array(
     'weight' => array(
@@ -347,27 +352,47 @@ function ding_wayfinder_views_default_views() {
       'relationship' => 'none',
     ),
   ));
-  $handler->override_option('title', 'Keywords');
-  $handler->override_option('footer', '<a href="/node/add/wf-keyword?destination=">Add new keyword</a>');
-  $handler->override_option('footer_format', '2');
-  $handler->override_option('footer_empty', 0);
-  $handler->override_option('path', 'biblioteker/%/wayfinder/%');
-  $handler->override_option('menu', array(
-    'type' => 'none',
-    'title' => '',
-    'description' => '',
-    'weight' => 0,
-    'name' => 'navigation',
-  ));
-  $handler->override_option('tab_options', array(
-    'type' => 'none',
-    'title' => '',
-    'description' => '',
-    'weight' => 0,
-    'name' => 'navigation',
-  ));
-  $handler = $view->new_display('page', 'Floors', 'page_2');
   $handler->override_option('fields', array(
+    'field_floor_nid' => array(
+      'label' => '',
+      'alter' => array(
+        'alter_text' => 0,
+        'text' => '',
+        'make_link' => 0,
+        'path' => '',
+        'absolute' => 0,
+        'link_class' => '',
+        'alt' => '',
+        'rel' => '',
+        'prefix' => '',
+        'suffix' => '',
+        'target' => '',
+        'help' => '',
+        'trim' => 0,
+        'max_length' => '',
+        'word_boundary' => 1,
+        'ellipsis' => 1,
+        'html' => 0,
+        'strip_tags' => 0,
+      ),
+      'empty' => '',
+      'hide_empty' => 0,
+      'empty_zero' => 0,
+      'link_to_node' => 0,
+      'label_type' => 'none',
+      'format' => 'default',
+      'multiple' => array(
+        'group' => TRUE,
+        'multiple_number' => '',
+        'multiple_from' => '',
+        'multiple_reversed' => FALSE,
+      ),
+      'exclude' => 1,
+      'id' => 'field_floor_nid',
+      'table' => 'node_data_field_floor',
+      'field' => 'field_floor_nid',
+      'relationship' => 'none',
+    ),
     'title' => array(
       'label' => 'Title',
       'alter' => array(
@@ -393,12 +418,15 @@ function ding_wayfinder_views_default_views() {
       'empty' => '',
       'hide_empty' => 0,
       'empty_zero' => 0,
-      'link_to_node' => 1,
+      'link_to_node' => 0,
       'exclude' => 0,
       'id' => 'title',
       'table' => 'node',
       'field' => 'title',
       'relationship' => 'none',
+      'override' => array(
+        'button' => 'Use default',
+      ),
     ),
     'delete_node' => array(
       'label' => 'Delete',
@@ -503,6 +531,177 @@ function ding_wayfinder_views_default_views() {
       'table' => 'node_weight',
       'field' => 'weight',
       'relationship' => 'none',
+      'override' => array(
+        'button' => 'Use default',
+      ),
+    ),
+  ));
+  $handler->override_option('title', 'Keywords');
+  $handler->override_option('header', 'Header');
+  $handler->override_option('header_format', '2');
+  $handler->override_option('header_empty', 1);
+  $handler->override_option('footer_format', '2');
+  $handler->override_option('footer_empty', 0);
+  $handler->override_option('empty', 'There\'s no keywords on this floor yet');
+  $handler->override_option('empty_format', '2');
+  $handler->override_option('path', 'admin/settings/wayfinder/administer_keywords/%/%');
+  $handler->override_option('menu', array(
+    'type' => 'none',
+    'title' => '',
+    'description' => '',
+    'weight' => 0,
+    'name' => 'navigation',
+  ));
+  $handler->override_option('tab_options', array(
+    'type' => 'none',
+    'title' => '',
+    'description' => '',
+    'weight' => 0,
+    'name' => 'navigation',
+  ));
+  $handler = $view->new_display('page', 'Floors', 'page_2');
+  $handler->override_option('fields', array(
+    'title' => array(
+      'label' => 'Title',
+      'alter' => array(
+        'alter_text' => 0,
+        'text' => '',
+        'make_link' => 0,
+        'path' => '',
+        'absolute' => 0,
+        'link_class' => '',
+        'alt' => '',
+        'rel' => '',
+        'prefix' => '',
+        'suffix' => '',
+        'target' => '',
+        'help' => '',
+        'trim' => 0,
+        'max_length' => '',
+        'word_boundary' => 1,
+        'ellipsis' => 1,
+        'html' => 0,
+        'strip_tags' => 0,
+      ),
+      'empty' => '',
+      'hide_empty' => 0,
+      'empty_zero' => 0,
+      'link_to_node' => 0,
+      'exclude' => 0,
+      'id' => 'title',
+      'table' => 'node',
+      'field' => 'title',
+      'relationship' => 'none',
+      'override' => array(
+        'button' => 'Use default',
+      ),
+    ),
+    'delete_node' => array(
+      'label' => 'Delete',
+      'alter' => array(
+        'alter_text' => 0,
+        'text' => '',
+        'make_link' => 0,
+        'path' => '',
+        'absolute' => 0,
+        'link_class' => '',
+        'alt' => '',
+        'rel' => '',
+        'prefix' => '',
+        'suffix' => '',
+        'target' => '',
+        'help' => '',
+        'trim' => 0,
+        'max_length' => '',
+        'word_boundary' => 1,
+        'ellipsis' => 1,
+        'html' => 0,
+        'strip_tags' => 0,
+      ),
+      'empty' => '',
+      'hide_empty' => 0,
+      'empty_zero' => 0,
+      'text' => '',
+      'exclude' => 0,
+      'id' => 'delete_node',
+      'table' => 'node',
+      'field' => 'delete_node',
+      'relationship' => 'none',
+    ),
+    'edit_node' => array(
+      'label' => 'Edit',
+      'alter' => array(
+        'alter_text' => 0,
+        'text' => '',
+        'make_link' => 0,
+        'path' => '',
+        'absolute' => 0,
+        'link_class' => '',
+        'alt' => '',
+        'rel' => '',
+        'prefix' => '',
+        'suffix' => '',
+        'target' => '',
+        'help' => '',
+        'trim' => 0,
+        'max_length' => '',
+        'word_boundary' => 1,
+        'ellipsis' => 1,
+        'html' => 0,
+        'strip_tags' => 0,
+      ),
+      'empty' => '',
+      'hide_empty' => 0,
+      'empty_zero' => 0,
+      'text' => '',
+      'exclude' => 0,
+      'id' => 'edit_node',
+      'table' => 'node',
+      'field' => 'edit_node',
+      'relationship' => 'none',
+    ),
+    'weight' => array(
+      'label' => 'Weight',
+      'alter' => array(
+        'alter_text' => 0,
+        'text' => '',
+        'make_link' => 0,
+        'path' => '',
+        'absolute' => 0,
+        'link_class' => '',
+        'alt' => '',
+        'rel' => '',
+        'prefix' => '',
+        'suffix' => '',
+        'target' => '',
+        'help' => '',
+        'trim' => 0,
+        'max_length' => '',
+        'word_boundary' => 1,
+        'ellipsis' => 1,
+        'html' => 0,
+        'strip_tags' => 0,
+      ),
+      'empty' => '',
+      'hide_empty' => 0,
+      'empty_zero' => 0,
+      'set_precision' => FALSE,
+      'precision' => 0,
+      'decimal' => '.',
+      'separator' => ',',
+      'format_plural' => 0,
+      'format_plural_singular' => '1',
+      'format_plural_plural' => '@count',
+      'prefix' => '',
+      'suffix' => '',
+      'exclude' => 0,
+      'id' => 'weight',
+      'table' => 'node_weight',
+      'field' => 'weight',
+      'relationship' => 'none',
+      'override' => array(
+        'button' => 'Use default',
+      ),
     ),
     'nid' => array(
       'label' => 'Nid',
@@ -510,7 +709,7 @@ function ding_wayfinder_views_default_views() {
         'alter_text' => 1,
         'text' => 'Manage Keywords',
         'make_link' => 1,
-        'path' => 'biblioteker/!1/wayfinder/[nid]',
+        'path' => 'admin/settings/wayfinder/administer_keywords/!1/[nid]',
         'absolute' => 0,
         'link_class' => '',
         'alt' => '',
@@ -625,16 +824,149 @@ function ding_wayfinder_views_default_views() {
     ),
   ));
   $handler->override_option('title', 'Floors');
-  $handler->override_option('footer', '<a href="/node/add/wf-floor?destination=">Add new floor</a>');
+  $handler->override_option('header', 'aaa');
+  $handler->override_option('header_format', '2');
+  $handler->override_option('header_empty', 1);
   $handler->override_option('footer_format', '2');
   $handler->override_option('footer_empty', 0);
-  $handler->override_option('path', 'biblioteker/%/wayfinder');
+  $handler->override_option('path', 'admin/settings/wayfinder/administer_keywords/%');
   $handler->override_option('menu', array(
     'type' => 'none',
     'title' => '',
     'description' => '',
     'weight' => 0,
     'name' => 'navigation',
+  ));
+  $handler->override_option('tab_options', array(
+    'type' => 'none',
+    'title' => '',
+    'description' => '',
+    'weight' => 0,
+    'name' => 'navigation',
+  ));
+  $handler = $view->new_display('page', 'Libraries', 'page_3');
+  $handler->override_option('relationships', array());
+  $handler->override_option('fields', array(
+    'nid' => array(
+      'label' => 'Nid',
+      'alter' => array(
+        'alter_text' => 0,
+        'text' => '',
+        'make_link' => 0,
+        'path' => '',
+        'absolute' => 0,
+        'link_class' => '',
+        'alt' => '',
+        'rel' => '',
+        'prefix' => '',
+        'suffix' => '',
+        'target' => '',
+        'help' => '',
+        'trim' => 0,
+        'max_length' => '',
+        'word_boundary' => 1,
+        'ellipsis' => 1,
+        'html' => 0,
+        'strip_tags' => 0,
+      ),
+      'empty' => '',
+      'hide_empty' => 0,
+      'empty_zero' => 0,
+      'link_to_node' => 0,
+      'exclude' => 1,
+      'id' => 'nid',
+      'table' => 'node',
+      'field' => 'nid',
+      'override' => array(
+        'button' => 'Use default',
+      ),
+      'relationship' => 'none',
+    ),
+    'title' => array(
+      'label' => 'Title',
+      'alter' => array(
+        'alter_text' => 0,
+        'text' => '',
+        'make_link' => 1,
+        'path' => 'admin/settings/wayfinder/administer_keywords/[nid]',
+        'absolute' => 0,
+        'link_class' => '',
+        'alt' => '',
+        'rel' => '',
+        'prefix' => '',
+        'suffix' => '',
+        'target' => '',
+        'help' => '',
+        'trim' => 0,
+        'max_length' => '',
+        'word_boundary' => 1,
+        'ellipsis' => 1,
+        'html' => 0,
+        'strip_tags' => 0,
+      ),
+      'empty' => '',
+      'hide_empty' => 0,
+      'empty_zero' => 0,
+      'link_to_node' => 0,
+      'exclude' => 0,
+      'id' => 'title',
+      'table' => 'node',
+      'field' => 'title',
+      'relationship' => 'none',
+      'override' => array(
+        'button' => 'Use default',
+      ),
+    ),
+  ));
+  $handler->override_option('sorts', array());
+  $handler->override_option('arguments', array());
+  $handler->override_option('filters', array(
+    'type' => array(
+      'operator' => 'in',
+      'value' => array(
+        'library' => 'library',
+      ),
+      'group' => '0',
+      'exposed' => FALSE,
+      'expose' => array(
+        'operator' => FALSE,
+        'label' => '',
+      ),
+      'id' => 'type',
+      'table' => 'node',
+      'field' => 'type',
+      'relationship' => 'none',
+      'override' => array(
+        'button' => 'Use default',
+      ),
+    ),
+  ));
+  $handler->override_option('title', 'Libraries to manage ');
+  $handler->override_option('style_plugin', 'table');
+  $handler->override_option('style_options', array(
+    'grouping' => '',
+    'override' => 1,
+    'sticky' => 0,
+    'order' => 'asc',
+    'summary' => '',
+    'columns' => array(
+      'title' => 'title',
+    ),
+    'info' => array(
+      'title' => array(
+        'sortable' => 0,
+        'separator' => '',
+      ),
+    ),
+    'default' => '-1',
+  ));
+  $handler->override_option('path', 'admin/settings/wayfinder/administer_keywords');
+  $handler->override_option('menu', array(
+    'type' => 'default tab',
+    'title' => 'Manage Keywords',
+    'description' => '',
+    'weight' => '0',
+    'name' => 'admin',
   ));
   $handler->override_option('tab_options', array(
     'type' => 'none',

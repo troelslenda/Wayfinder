@@ -1,3 +1,51 @@
 <?php
 
 include_once('ding_wayfinder.features.inc');
+
+/**
+ * Implements hook_views_pre_render().
+ */
+function ding_wayfinder_views_pre_render(&$view) {
+
+  if ($view->name != 'wayfinder') {
+    return;
+  }
+
+  if ($view->args[0]) {
+    $node = node_load($view->args[0]);
+    $library = $node->title;
+  }
+  if ($view->args[1]) {
+    $node = node_load($view->args[1]);
+    $floor = $node->title;
+  }
+  switch ($view->current_display) {
+    case 'page_1':
+      $links[] = l(t('Back to Floors'),'admin/settings/wayfinder/administer_keywords/' . $view->args[0]);
+      $links[] = l(t('Add another keyword'),'node/add/wf-keyword/' . $view->args[1],array('query' => array('destination' => 'admin/settings/wayfinder/administer_keywords/' . $view->args[0] . '/' . $view->args[1])));
+      $title = $library . ' : ' . $floor . ' : ' . t('Keywords');
+      break;
+
+    case 'page_2':
+      $links[] = l(t('Back to Libraries'),'admin/settings/wayfinder/administer_keywords/');
+      $links[] = l(t('Add another floor'),'node/add/wf-floor/' . $view->args[0],array('query' => array('destination' => 'admin/settings/wayfinder/administer_keywords/' . $view->args[0])));
+      $title = $library . ' : ' . $floor . ' : ' . t('Keywords');
+      $title = $library . ' : ' . t('Floors');
+      break;
+
+  }
+  $view->display_handler->options['header'] = theme('item_list', $links);
+  drupal_set_title($title);
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function ding_wayfinder_form_alter(&$form,$form_state,$form_id) {
+  if($form_id == 'wf_floor_node_form') {
+    $form['field_library']['#default_value'][0]['nid'] = arg(3);
+  }
+  if($form_id == 'wf_keyword_node_form') {
+    $form['field_floor']['#default_value'][0]['nid'] = arg(3);
+  }
+}
