@@ -103,7 +103,7 @@ function ding_wayfinder_get_keywords($lib) {
     $keyword_result = db_query('SELECT n.nid FROM {node} AS n LEFT JOIN content_type_wf_keyword AS kw ON n.nid = kw.nid WHERE kw.field_floor_nid = '. $obj->nid);
     while ($obj = db_fetch_object($keyword_result)) {
       $keyword_node = node_load($obj->nid);
-      $keyword['title'] = $keyword_node->title;
+      $keyword['name'] = $keyword_node->title;
       $keyword['filename'] = $keyword_node->field_keywordoverlay[0]['filepath'];
       if ($keyword_node->taxonomy) {
         // get all noded in taxonomy and choose the first one. if first one equals this one, just set keywordid like normal, else set keywordid same as first

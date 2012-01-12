@@ -6,11 +6,14 @@ if(window.applicationCache.status === window.applicationCache.UPDATEREADY) {
   onUpdateReady();  
 }  
 
-var data = Drupal.settings.ding_wayfinder_data;
+var data = {};
 
 var global = {};
 
 jQuery(function($){
+
+
+  data = Drupal.settings.ding_wayfinder.data;
 
   if(window.location.hash.substring(1) == 'clear') {
     localStorage.clear();
@@ -182,7 +185,9 @@ else{
         $('.keywords > li.aggregated > ul').show().addClass('activeFloor');
       }
 
-      $('.floorplan-image').attr('src', 'files/' + data[index].filename);
+//ll.d(dataindex);
+
+      $('.floorplan-image').attr('src', '/' + data[index].filename);
 
 
 
@@ -228,7 +233,7 @@ else{
     else{
       $('.element-image').show();
       //$('.keywords > li > ul:eq('+floorIndex+') > li:eq('+elementIndex+')').addClass('act');
-      $('.element-image').attr('src', 'files/' + data[floorIndex].keywords[elementIndex].filename);
+      $('.element-image').attr('src', '/' + data[floorIndex].keywords[elementIndex].filename);
     }
   }
 
@@ -270,7 +275,7 @@ else{
   });*/
 function changeFloor(FloorIndex) {
   onFloorChange(FloorIndex);
-  $('.floorplan-image').attr('src', 'files/' + data[FloorIndex].filename);
+  $('.floorplan-image').attr('src', '/' + data[FloorIndex].filename);
   $('.floornav li:eq('+FloorIndex+')').siblings().removeClass('red-gradient');
   $('.floornav li:eq('+FloorIndex+')').addClass('red-gradient');
   global.activeFloor = FloorIndex;

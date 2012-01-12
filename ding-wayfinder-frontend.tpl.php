@@ -1,5 +1,5 @@
 <!doctype html>
-<html manifest="wayfinder/cache">
+<html disable_manifest="wayfinder/cache">
   <head>
     <meta charset="utf-8">
     <!-- Following meta tags are iOS specfic to make the website act more like an application -->
