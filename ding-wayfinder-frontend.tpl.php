@@ -15,7 +15,7 @@
   </head>
   <body>
 
-  <div class="topbar red-gradient"><span class="aggregate button">Alle nøgleord</span><div class="logo"><img src="theme/kk.svg">Københavns <strong>Hovedbibliotek</strong></div></div>
+  <div class="topbar red-gradient"><span class="aggregate button"><?php echo t('Alle nøgleord'); ?></span><div class="logo"><?php print theme('image', drupal_get_path('module', 'ding_wayfinder').'/images/kk.svg','','',NULL,FALSE);?><?php echo t('Københavns <strong>Hovedbibliotek</strong>'); ?></div></div>
 
   <img class="floorplan-image">
   <img class="element-image">
