@@ -1,0 +1,10 @@
+.rotated .floorplan-image,
+.rotated .element-image {
+	-webkit-transform:rotate(180deg);
+	left:30%;
+	top:-15%;
+}
+
+.floorplan-image{
+border:1px solid red:
+}

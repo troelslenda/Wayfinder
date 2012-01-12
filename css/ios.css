@@ -1,0 +1,6 @@
+@CHARSET "UTF-8";
+
+/* ensure that selection and copy from dom is disabled */
+*:not(input) {
+  -webkit-user-select: none;
+}

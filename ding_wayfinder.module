@@ -3,6 +3,138 @@
 include_once('ding_wayfinder.features.inc');
 
 /**
+ * Implements hook_menu().
+ */
+function ding_wayfinder_menu() {
+  $items = array();
+  $items['biblioteker/%/wayfinder'] = array(
+    'title' => 'Digital Wayfinder frontend', 
+    'page callback' => 'ding_wayfinder_frontend', 
+    'access arguments' => array('access content'), 
+    'type' => MENU_CALLBACK,
+  );
+  $items['biblioteker/%/wayfinder/cache'] = array(
+    'title' => 'Digital Wayfinder frontend', 
+    'page callback' => 'ding_wayfinder_cache', 
+    'access arguments' => array('access content'), 
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+function ding_wayfinder_theme() {
+ return array(
+    // as in 'theme('verbose_method',...)
+    'ding_wayfinder_frontend_build' => array(
+      'template' => 'ding-wayfinder-frontend',
+      'arguments' => array(
+        'styles' => null, 
+        'scripts' => null,
+      ),
+    ),
+  );
+}
+
+function ding_wayfinder_cache() {
+  header('Contesnt-Type: text/cache-manifest;');
+echo "CACHE MANIFEST
+	 index.html
+	/sites/all/modules/ding_wayfinder/css/layout.css
+css/ios.css
+
+#".time()."
+";
+
+}
+
+function ding_wayfinder_frontend() {
+
+$modulekey = 'ding_wayfinder';
+
+$files = file_scan_directory(drupal_get_path('module', $modulekey).'/css', '.css');
+foreach ($files as $file) {
+  drupal_add_css($file->filename);
+}
+$css = drupal_add_css();
+
+foreach ($css['all']['module'] as $key => $line) {
+  if (!strpos($key, $modulekey)) {
+   unset($css['all']['module'][$key]);
+  }
+}
+
+$data = ding_wayfinder_get_keywords(arg(1));
+
+// join floors up on keywords
+// for each keyword add to data array. (Sorted floor weight, then keyword weight.) if floor is diffrent from previous floor, make new floor in data array.
+
+$data = array('ding_wayfinder' => array('data' => $data,'settings' => 1));
+
+drupal_add_js($data,'setting');
+
+$files = file_scan_directory(drupal_get_path('module', $modulekey).'/js', '.js');
+foreach ($files as $file) {
+  drupal_add_js($file->filename);
+}
+$js = drupal_add_js();
+
+foreach ($js['module'] as $key => $line) {
+  if (!strpos($key, $modulekey)) {
+   unset( $js['module'][$key]);
+  }
+}
+
+$styles = drupal_get_css($css);
+$scripts = drupal_get_js('header', $js);
+
+  echo theme('ding_wayfinder_frontend_build',$styles,$scripts);
+}
+
+function ding_wayfinder_get_keywords($lib) {
+
+  $data = array();
+
+  // loop all floors
+  $result = db_query('SELECT n.nid FROM {node} AS n LEFT JOIN content_type_wf_floor AS floor ON n.nid = floor.nid WHERE floor.field_library_nid = '.$lib);
+  while ($obj = db_fetch_object($result)) {
+    $node = node_load($obj->nid);
+    // loop all keywords for given floor
+    $keyword_result = db_query('SELECT n.nid FROM {node} AS n LEFT JOIN content_type_wf_keyword AS kw ON n.nid = kw.nid WHERE kw.field_floor_nid = '. $obj->nid);
+    while ($obj = db_fetch_object($keyword_result)) {
+      $keyword_node = node_load($obj->nid);
+      $keyword['title'] = $keyword_node->title;
+      $keyword['filename'] = $keyword_node->field_keywordoverlay[0]['filepath'];
+      if ($keyword_node->taxonomy) {
+        // get all noded in taxonomy and choose the first one. if first one equals this one, just set keywordid like normal, else set keywordid same as first
+        $result_taxonomy = taxonomy_select_nodes( array_keys($keyword_node->taxonomy));
+        // get first node
+        $obj = db_fetch_object($result_taxonomy);
+ 	if ($obj->nid != $keyword_node->nid) {
+	  $keyword['id'] = $obj->nid;
+ 	}
+        else { 
+          $keyword['id'] = $keyword_node->nid;
+        }
+      }
+      else {
+        $keyword['id'] = $keyword_node->nid;
+      }
+      $keywords[] = $keyword;
+    }
+
+    $floor['name'] = $node->title;
+    $floor['filename'] = $node->field_floorplan[0]['filepath'];
+    $floor['keywords'] = $keywords;
+    unset($keywords);
+
+    $data[] = $floor;
+  }
+  return $data;
+}
+
+
+/**
  * Implements hook_views_pre_render().
  */
 function ding_wayfinder_views_pre_render(&$view) {
