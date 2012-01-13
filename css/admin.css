@@ -1,0 +1,10 @@
+.settings {
+position:absolute;
+left:1em;
+top:5em;
+z-index:5;
+color:#fff;
+}
+.settings p {
+margin:0;
+}
