@@ -69,6 +69,8 @@ jQuery(function($){
   }, false);
 
 
+  
+
   // build floors list
   $(data).each(function(floorid){
 
@@ -292,11 +294,13 @@ function changeFloor(FloorIndex) {
   }
 
 
+ll.d(Drupal.settings.ding_wayfinder.settings.wayfinder_path);
+
   if(isAdminApp){
     // show a diffrent app icon
-    $('link[rel=apple-touch-icon-precomposed]').attr('href','theme/admin_icon.png');
+    $('link[rel=apple-touch-icon-precomposed]').attr('href','/' + Drupal.settings.ding_wayfinder.settings.wayfinder_path + '/admin_icon.png');
 
-    $('head').append('<link rel="stylesheet" type="text/css" href="theme/admin.css">');
+    $('head').append('<link rel="stylesheet" type="text/css" href="/' + Drupal.settings.ding_wayfinder.settings.wayfinder_path + '/css/admin.css">');
     $('.floorplan-image').bind("touchstart touchmove", touchStart);
     function touchStart(e) {
       /*e.preventDefault();*/
@@ -309,14 +313,17 @@ function changeFloor(FloorIndex) {
     $('body').append('<form action="" method="post" class="settings"><label><p>Devicename:</p><input placeholder="give the device a name" type="text" name="devicename" /></label><input type="submit"value="set"></form>');
     $('input[name=devicename]').val(localStorage.getItem('devicename'));
     $('form').submit(function(e){
-     // e.preventDefault();
+      e.preventDefault();
+
+      devicename = $('input[name=devicename]',this).val();
 //ll.d($('input[name=devicename]',this).val());
-      localStorage.setItem('devicename',$('input[name=devicename]',this).val());
+      localStorage.setItem('devicename',devicename);
+      $.post('wayfinder/post_settings',{'clientname' : devicename},function(data){alert(data)});
       
 //      ll.d($('button:clicked'));
 
  //     ll.d(e);
-      return false;
+    //  return false;
     //ll.d('submit');  
     });
     $('.settings').append('<div><label><p>Rotate map:</p><button class="rotate">Rotate</button></label></div>');

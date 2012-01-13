@@ -19,8 +19,86 @@ function ding_wayfinder_menu() {
     'access arguments' => array('access content'), 
     'type' => MENU_CALLBACK,
   );
+  $items['biblioteker/%/wayfinder/post_settings'] = array(
+    'title' => 'Digital Wayfinder frontend', 
+    'page callback' => 'ding_wayfinder_post_settings', 
+    'access arguments' => array('access content'), 
+    'type' => MENU_CALLBACK,
+  );
+  $items['admin/settings/wayfinder/%node'] = array(
+    'title' => 'Wayfinder Library',
+    'description' => 'Setup and administer Digital Wayfinder for all libraries',
+    'page callback' => 'ding_wayfinder_clients', 
+    'access arguments' => array('access content'), 
+    'type' => MENU_NORMAL_ITEM,
+  );
+  $items['admin/settings/wayfinder/%/clients'] = array(
+    'title' => 'Digital Wayfinder Clients', 
+//    'page callback' => 'ding_wayfinder_clients', 
+    'access arguments' => array('access content'), 
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+  );
+  $items['admin/settings/wayfinder/%/clients/%/remove'] = array(
+    'title' => 'Digital Wayfinder Clients', 
+    'page callback' => 'ding_wayfinder_clients_remove',
+    'page arguments' => array(3,5),
+    'access arguments' => array('access content'), 
+    'type' => MENU_CALLBACK,
+  );
+
+
+  $items['admin/settings/wayfinder/%/settings'] = array(
+    'title' => 'Digital Wayfinder Settings', 
+    'page callback' => 'ding_wayfinder_settings', 
+    'access arguments' => array('access content'), 
+    'type' => MENU_LOCAL_TASK,
+  );
 
   return $items;
+}
+/**
+ * Set library via POST
+ */
+function ding_wayfinder_post_settings() {
+print 'frisk';
+  $name = filter_xss($_POST['clientname']);
+ // die($name);
+  $clients = unserialize(variable_get('ding_wayfinder_clients_'.arg(1)));
+  if(!in_array($name,$clients)) {
+    $clients[] = $name;
+  }
+//  $clients[] = 'hest';
+  variable_set('ding_wayfinder_clients_'.arg(1),serialize($clients));
+
+//return 'eeee';
+}
+
+
+function ding_wayfinder_settings() {
+  return 'settings';
+}
+
+function ding_wayfinder_clients() {
+  $clients = unserialize(variable_get('ding_wayfinder_clients_'.arg(3),array()));
+
+  $i=0;
+  foreach ($clients as $key =>  $client) {
+    $rows[] = array($client,'Wait...','---','---',l(t('X'),'admin/settings/wayfinder/'.arg(3).'/clients/'.$key.'/remove',array('query' => array('destination' => 'admin/settings/wayfinder/'.arg(3).'/clients'))));
+
+    $i++;
+  }
+
+//$rows = array($clients);
+  // build client list
+
+  return theme('table',array(t('Clients'),t('Status'),t('Reloaded last'),t('Last answer'),t('Remove')),$rows);
+}
+
+function ding_wayfinder_clients_remove($library,$client) {
+  $clients = unserialize(variable_get('ding_wayfinder_clients_'.$library,array()));
+  unset($clients[$client]);
+  variable_set('ding_wayfinder_clients_'.$library,serialize($clients));
+  drupal_goto();
 }
 
 function ding_wayfinder_theme() {
@@ -69,7 +147,9 @@ $data = ding_wayfinder_get_keywords(arg(1));
 // join floors up on keywords
 // for each keyword add to data array. (Sorted floor weight, then keyword weight.) if floor is diffrent from previous floor, make new floor in data array.
 
-$data = array('ding_wayfinder' => array('data' => $data,'settings' => 1));
+$settings = array('wayfinder_path' => drupal_get_path('module','ding_wayfinder'));
+
+$data = array('ding_wayfinder' => array('data' => $data,'settings' => $settings));
 
 drupal_add_js($data,'setting');
 
