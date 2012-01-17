@@ -1,3 +1,0 @@
-[submodule "lib/php-websocket"]
-	path = lib/php-websocket
-	url = https://github.com/nicokaiser/php-websocket.git
