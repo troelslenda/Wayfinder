@@ -48,14 +48,48 @@ function ding_wayfinder_menu() {
 
 
   $items['admin/settings/wayfinder/%/settings'] = array(
+    'description'      => 'settings for eLib SOAP webservice',
+    'access arguments' => array('access administration pages'),
+    'page callback'    => 'drupal_get_form',
+    'page arguments'   => array('ding_wayfinder_settings_form',1),
     'title' => 'Digital Wayfinder Settings', 
-    'page callback' => 'ding_wayfinder_settings', 
-    'access arguments' => array('access content'), 
     'type' => MENU_LOCAL_TASK,
   );
 
   return $items;
 }
+
+function ding_wayfinder_settings_form($form_state) {
+
+  $library = arg(3);
+
+  $form = array();
+
+  $form['wf'] = array(
+    '#type'        => 'fieldset',
+    '#title'       => t('Wayfinder settings'),
+    '#description' => t('These variables must be set inorder for the library wayfinder to work'),
+    '#tree'        => FALSE,
+  );
+  $form['wf']['ding_wayfinder_server'] = array(
+    '#type'          => 'textfield',
+    '#title'         => t('Websocket URL'),
+    '#description'   => t('Where is the websocket and app located? eg. ws://localhost:8080/app'),
+    '#required'      => TRUE,
+    '#default_value' => variable_get('ding_wayfinder_server', ''),
+  );
+  $form['wf']['ding_wayfinder_idletime_'.$library] = array(
+    '#type'          => 'textfield',
+    '#title'         => t('Client Idle time (seconds)'),
+    '#description'   => t('How long can the client remain without getting touched?'),
+    '#required'      => TRUE,
+    '#default_value' => variable_get('ding_wayfinder_idletime_'.$library, '30'),
+  );
+  
+  return system_settings_form($form);
+}
+
+
 /**
  * Set library via POST
  */
@@ -87,7 +121,7 @@ function ding_wayfinder_clients() {
 
   $settings = array(
     'wayfinder_path' => drupal_get_path('module','ding_wayfinder'),
-    'server' => 'ws://localhost:8000/dwf',
+    'server' => variable_get('ding_wayfinder_server',''),
   );
   $data = array('ding_wayfinder' => array('settings' => $settings,'clients' => $clientsJS));
   drupal_add_js($data,'setting');
@@ -165,7 +199,7 @@ $data = ding_wayfinder_get_keywords(arg(1));
 $settings = array(
 	'wayfinder_path' => drupal_get_path('module','ding_wayfinder'),
 	'launched' => format_date(time()),
-	'server' => 'ws://localhost:8000/dwf',
+	'server' => variable_get('ding_wayfinder_server', ''),
 );
 
 $data = array('ding_wayfinder' => array('data' => $data,'settings' => $settings));
