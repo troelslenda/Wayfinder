@@ -77,8 +77,6 @@ function ding_wayfinder_settings() {
 function ding_wayfinder_clients() {
   $clients = unserialize(variable_get('ding_wayfinder_clients_'.arg(3),array()));
 
- // var_dump($clients);
-
   $i=0;
   foreach ($clients as $key => $lastanswer) {
     $rows[] = array($key,'Wait...','---',$lastanswer,l(t('X'),'admin/settings/wayfinder/'.arg(3).'/clients/'.$key.'/remove',array('query' => array('destination' => 'admin/settings/wayfinder/'.arg(3).'/clients'))));
@@ -87,38 +85,28 @@ function ding_wayfinder_clients() {
     $i++;
   }
 
+  $settings = array(
+    'wayfinder_path' => drupal_get_path('module','ding_wayfinder'),
+    'server' => 'ws://localhost:8000/dwf',
+  );
+  $data = array('ding_wayfinder' => array('settings' => $settings,'clients' => $clientsJS));
+  drupal_add_js($data,'setting');
 
+  $libpath = drupal_get_path('module', 'ding_wayfinder').'/lib/php-websocket/client/js/';
 
-$settings = array(
-	'wayfinder_path' => drupal_get_path('module','ding_wayfinder'),
-//	'launched' => time(),
-	'server' => 'ws://localhost:8000/dwf',
-);
-
-$data = array('ding_wayfinder' => array('settings' => $settings,'clients' => $clientsJS));
-
-drupal_add_js($data,'setting');
-
-   //drupal_add_js(drupal_get_path('module', 'ding_wayfinder').'/lib/php-websocket/js/jquery.min.js');
-   // "js/json2.js"
-$libpath = drupal_get_path('module', 'ding_wayfinder').'/lib/php-websocket/client/js/';
-
-    drupal_add_js($libpath . 'json2.js');
-    drupal_add_js($libpath . 'swfobject.js');
-    drupal_add_js($libpath . 'FABridge.js');
-    drupal_add_js($libpath . 'web_socket.js');
-    drupal_add_js($libpath . 'webpush.js');
-
-    drupal_add_js('WEB_SOCKET_SWF_LOCATION = "/'.$libpath.'WebSocketMain.swf";','inline');
-
-
-drupal_add_js(drupal_get_path('module', 'ding_wayfinder').'/js/admin.js');
+  drupal_add_js($libpath . 'json2.js');
+  drupal_add_js($libpath . 'swfobject.js');
+  drupal_add_js($libpath . 'FABridge.js');
+  drupal_add_js($libpath . 'web_socket.js');
+  drupal_add_js($libpath . 'webpush.js');
+  drupal_add_js('WEB_SOCKET_SWF_LOCATION = "/'.$libpath.'WebSocketMain.swf";','inline');
+  drupal_add_js(drupal_get_path('module', 'ding_wayfinder').'/js/admin.js');
 
   // build client list
   $output = theme('table',array(t('Clients'),t('Status'),t('Reloaded last'),t('Last answer'),t('Remove')),$rows);
   $output .= theme('button',array('#id' => 'reload', '#value' => t('Reload clients'), '#type' => 'submit', '#button_type' => 'submit'));
 
-    return $output;
+  return $output;
 }
 
 function ding_wayfinder_clients_remove($library,$client) {
@@ -271,7 +259,7 @@ function ding_wayfinder_views_pre_render(&$view) {
 
     case 'page_2':
       $links[] = l(t('Back to Client list'),'admin/settings/wayfinder/'.$view->args[0]);
-      $links[] = l(t('Add another floor'),'node/add/wf-floor/' . $view->args[0],array('query' => array('destination' => 'admin/settings/wayfinder//' . $view->args[0]. '/floors')));
+      $links[] = l(t('Add another floor'),'node/add/wf-floor/' . $view->args[0],array('query' => array('destination' => 'admin/settings/wayfinder/' . $view->args[0]. '/floors')));
       $title = $library . ' : ' . $floor . ' : ' . t('Keywords');
       $title = $library . ' : ' . t('Floors');
       break;
