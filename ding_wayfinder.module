@@ -62,7 +62,7 @@ function ding_wayfinder_menu() {
 function ding_wayfinder_ajax_save_clients() {
 print 'frisk';
   $name = filter_xss($_POST['clientname']);
-  $clients = unserialize(variable_get('ding_wayfinder_clients_'.arg(1),''));
+  $clients = unserialize(variable_get('ding_wayfinder_clients_'.arg(1),array()));
   // add client if it dosen't exist and set last update time;
   $clients[$name] = format_date(time());
   
