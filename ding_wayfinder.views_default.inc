@@ -544,7 +544,7 @@ function ding_wayfinder_views_default_views() {
   $handler->override_option('footer_empty', 0);
   $handler->override_option('empty', 'There\'s no keywords on this floor yet');
   $handler->override_option('empty_format', '2');
-  $handler->override_option('path', 'admin/settings/wayfinder/administer_keywords/%/%');
+  $handler->override_option('path', 'admin/settings/wayfinder/%/%/keywords');
   $handler->override_option('menu', array(
     'type' => 'none',
     'title' => '',
@@ -709,7 +709,7 @@ function ding_wayfinder_views_default_views() {
         'alter_text' => 1,
         'text' => 'Manage Keywords',
         'make_link' => 1,
-        'path' => 'admin/settings/wayfinder/administer_keywords/!1/[nid]',
+        'path' => 'admin/settings/wayfinder/!1/[nid]/keywords',
         'absolute' => 0,
         'link_class' => '',
         'alt' => '',
@@ -829,12 +829,12 @@ function ding_wayfinder_views_default_views() {
   $handler->override_option('header_empty', 1);
   $handler->override_option('footer_format', '2');
   $handler->override_option('footer_empty', 0);
-  $handler->override_option('path', 'admin/settings/wayfinder/administer_keywords/%');
+  $handler->override_option('path', 'admin/settings/wayfinder/%/floors');
   $handler->override_option('menu', array(
-    'type' => 'none',
-    'title' => '',
+    'type' => 'tab',
+    'title' => 'Manage Keywords and Floors',
     'description' => '',
-    'weight' => 0,
+    'weight' => '0',
     'name' => 'navigation',
   ));
   $handler->override_option('tab_options', array(
@@ -888,7 +888,7 @@ function ding_wayfinder_views_default_views() {
         'alter_text' => 0,
         'text' => '',
         'make_link' => 1,
-        'path' => 'admin/settings/wayfinder/administer_keywords/[nid]',
+        'path' => 'admin/settings/wayfinder/[nid]',
         'absolute' => 0,
         'link_class' => '',
         'alt' => '',
@@ -960,11 +960,11 @@ function ding_wayfinder_views_default_views() {
     ),
     'default' => '-1',
   ));
-  $handler->override_option('path', 'admin/settings/wayfinder/administer_keywords');
+  $handler->override_option('path', 'admin/settings/wayfinder');
   $handler->override_option('menu', array(
-    'type' => 'default tab',
-    'title' => 'Manage Keywords',
-    'description' => '',
+    'type' => 'normal',
+    'title' => 'Wayfinder',
+    'description' => 'Setup and administer wayfinder',
     'weight' => '0',
     'name' => 'admin',
   ));
