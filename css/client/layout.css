@@ -2,6 +2,7 @@
 
 html,body {
   height: 100%;
+/*  overflow:hidden;*/
 }
 
 body {
@@ -21,18 +22,11 @@ body {
   width:100%;
   background: rgba(0,0,0,0.8);
   display: -webkit-box;
--webkit-box-pack:center;
--webkit-box-align:center;
--webkit-box-orient:vertical;
-
-text-align:center;
-font-size:1.2em;
-}
-.inp {
-  z-index:400;
-  top:10%;
-  left:10%;
-  position: absolute;
+  -webkit-box-pack:center;
+  -webkit-box-align:center;
+  -webkit-box-orient:vertical;
+  text-align:center;
+  font-size:1.2em;
 }
 .overlay img{
   position:absolute;
@@ -40,11 +34,9 @@ font-size:1.2em;
   right:1em;
   width:2em;
 }
-
 .red-gradient {
   background-image: -webkit-linear-gradient(top, rgb(192,32,38) 0%, rgb(112,14,17) 100%);
 }
-
 .location {
   background: rgb(192,32,38);
   border-radius:50%;
@@ -56,27 +48,22 @@ font-size:1.2em;
   -webkit-animation: pulse 1s infinite linear;
   border:0.2em solid #fff;
   z-index:5;
-
 }
-
 @-webkit-keyframes pulse {
-        0%   {
-          opacity: 0.1;
-          width:1em;
-          height:1em;
-          margin:-0.5em;
-         }
-
-        100% {
-          opacity: 1;
-          width:2em;
-          height:2em;
-          margin-left:-1em;
-          margin-top:-1em;
-   }
+  0%{
+    opacity: 0.1;
+    width:1em;
+    height:1em;
+    margin:-0.5em;
+  }
+  100%{
+    opacity: 1;
+    width:2em; 
+    height:2em;
+    margin-left:-1em;
+    margin-top:-1em;
+ }
 }
-
-
 .topbar {
   position:relative;
   padding: 1em;
@@ -130,7 +117,7 @@ font-size:1.2em;
         top:0;
         left:0;
         width:100%;
-        height:3em;
+        height:7em;
         z-index:3;
         text-indent:-999em;
         background-image: -webkit-linear-gradient(top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%)
@@ -141,7 +128,7 @@ font-size:1.2em;
         bottom:0;
         left:0;
         width:100%;
-        height:3em;
+        height:7em;
         z-index:2;
         text-indent:-999em;
              background-image: -webkit-linear-gradient(bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%)
@@ -160,11 +147,11 @@ position: absolute;
 }
 
 .keywords > li > ul > li:first-child {
-  padding-top:3em;
+  padding-top:6em;
   /*margin-top:300px;*/
 }
 .keywords > li > ul > li:last-child {
-  padding-bottom:3em;
+  padding-bottom:6em;
   /*margin-bottom:300px;*/
 }
 .keywords > li > ul > li {
@@ -201,22 +188,6 @@ margin-left:-1em;
 .keywords li ul li div span{
   margin-left:1em;
 }
-
-.floorplan-image {
-  position:absolute;
-  top:0;
-  right:0;
-  height: auto;
-  width:100%;
-}
-.element-image {
-  position:absolute;
-  top:0;
-  right:0;
-  height: auto;
-  width:100%;
-  z-index:1;
-}
 .keywords > li > ul,
 .keywords .floor-list {
   display: none;
@@ -230,51 +201,21 @@ margin-left:-1em;
   margin-left:0.5em;
 }
 
-/*
-.images ul {
-  margin:0;
-  padding: 0;
-}
-
-
-.images {
+.floorplan-image {
   position:absolute;
-  width:60%;
-  height:60%;
-  border:1px solid red;
-  top:1%;
-  right:0%;
-  overflow:hidden;
-  white-space: nowrap;
-
-}
-.images ul{
-  position:relative;
-}
-.images li {
-  display:inline-block;
-  position:relative;
-  width:100%;
-
-}
-
-.images li img{
-  width:150%;
-  position:relative;
-  height:auto;
-  margin-top:-10%;
-  margin-left:-50%;
-}
-.images li ul{
-  position: absolute;
+  top:0;
+  right:0;
+  height: 100%;
   width:100%;
 }
-.images li ul li{
-  display: block;
-  overflow:hidden;
+.element-image {
+  position:absolute;
+  top:0;
+  right:0;
+  height: 100%;
+  width:100%;
+  z-index:1;
 }
-*/
-
 
 /* floorlist */
 

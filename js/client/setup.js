@@ -1,11 +1,3 @@
-function onUpdateReady() {  
-  alert('found new version!');  
-}  
-window.applicationCache.addEventListener('updateready', onUpdateReady);  
-if(window.applicationCache.status === window.applicationCache.UPDATEREADY) {  
-  onUpdateReady();  
-}  
-
 var data = {};
 
 var global = {};
@@ -79,11 +71,18 @@ jQuery(function($){
     $('.floornav > li:last-child').click(function(){
       changeFloorPlan(floorid,false);
     });
+    $('<img/>').attr('src', '/' + this.filename);
     $('.keywords').append('<li><ul></ul></li>');
     if (!isAdminApp) {
       $(this.keywords).each(function(i){
         // Create a list item in the last created Unordered List and bind a clickevent
         $('.keywords > li:last-child > ul').append('<li data-id="'+this.id+'" data-floor-id="'+floorid+'">'+this.name+'</li>');
+
+//	console.log(this.filename);
+
+
+	// Preload images
+        $('<img/>').attr('src', '/' + this.filename);
         $('.keywords > li:last-child > ul > li:last-child').click(function(){
           global.activeKeywordId = $(this).attr('data-id');
       //    if(floorid != global.activeFloor) {
@@ -256,7 +255,7 @@ else{
     e.preventDefault();
   });
 
-  $('.location, .keywords > li > ul').live('touchmove',function(e){
+  $('.location, .keywords > li > ul').bind('touchmove',function(e){
     e.stopPropagation();
   });
 
@@ -329,14 +328,13 @@ ll.d(Drupal.settings.ding_wayfinder.settings.wayfinder_path);
     $('.settings').append('<div><label><p>Rotate map:</p><button class="rotate">Rotate</button></label></div>');
     $('.rotate').click(function(e){
       e.preventDefault();
-	ll.d(localStorage.getItem('rotated'));
       if(localStorage.getItem('rotated') == '0'){
         localStorage.setItem('rotated','180');
       }
       else{
         localStorage.setItem('rotated','0');    
       }
-      rotateMap();
+      dwf.rotateMap();
     });
 
   }
@@ -347,7 +345,7 @@ ll.d(Drupal.settings.ding_wayfinder.settings.wayfinder_path);
 
 });
 
-appReset = {
+var appReset = {
   'callback' : function(){ },
   'countdown' : 0,
   'initialCountdown' : 15,
@@ -398,21 +396,25 @@ function removePoint(){
 }
 
 
-var rotateMap = function(){
-  ll.d(localStorage.getItem('rotated'));
-  if(localStorage.getItem('rotated') == '180') {
-    $('body').addClass('rotated');
-  }
-  else {
-    $('body').removeClass('rotated');
-  }
-}
+//var rotateMap = function(){
+//  if(localStorage.getItem('rotated') == '180') {
+//    $('body').addClass('rotated');
+//  }
+//}
 
 var dwf = {
-	'init' : function(){
-		rotateMap();
-},
-	'buildKeywords' : function(){},
+  'init' : function(){
+    dwf.rotateMap();
+  },
+  'buildKeywords' : function(){},
+
+
+  'rotateMap' : function(){
+    $('body').removeClass('rotated');
+    if(localStorage.getItem('rotated') == '180') {
+      $('body').addClass('rotated');
+    }
+  }
 
 };
 
