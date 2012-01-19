@@ -64,21 +64,12 @@ jQuery(function($){
 
 
   // set pos for when touch starts
- $('body').bind("touchstart", function(e){
-//ll.d('dds');
-  pos = {
- 'x' : e.originalEvent.touches[0].screenX + '',
- 'y' : e.originalEvent.touches[0].screenY + '',
-}//ll.d(e)
-//$('body .topbar').html('X' +  ':' + pos.screenX+ " \nY" + ':'+pos.screenY);
- });
-/* $('body').bind("touchend", function(e){
-//ll.d('dds');
-//ll.d(e);
-
-  end = e.originalEvent.changedTouches[0];
-$('body .topbar').html('X' +  ':' + pos.x+ " \nY" + ':'+pos.y);
- });*/
+  $('body').bind("touchstart", function(e){
+    pos = {
+      'x' : e.originalEvent.touches[0].screenX,
+      'y' : e.originalEvent.touches[0].screenY,
+    }
+  });
 
   
 
@@ -107,9 +98,9 @@ $('body .topbar').html('X' +  ':' + pos.x+ " \nY" + ':'+pos.y);
 
         $('.keywords > li:last-child > ul > li:last-child').bind('touchend',function(e){
 
-end = e.originalEvent.changedTouches[0];
+        end = e.originalEvent.changedTouches[0];
 
-$('body .topbar .logo').html('X' + end.screenX + ':' + pos.x+ " \nY" + end.screenY + ':'+pos.y);
+//$('body .topbar .logo').html('X' + end.screenX + ':' + pos.x+ " \nY" + end.screenY + ':'+pos.y);
 
 
         if(end.screenX != pos.x){
