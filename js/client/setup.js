@@ -381,7 +381,7 @@ function drawPoint(){
     $('body').append('<div class="location"></div>');
   }
   $('.location').css({
-    'top' : (localStorage.getItem("y")-20)+'px',
+    'top' : (localStorage.getItem("y")-40)+'px',
     'left' : localStorage.getItem("x")+'px'
   }).show();
 }
