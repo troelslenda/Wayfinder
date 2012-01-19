@@ -68,7 +68,7 @@ jQuery(function($){
 
     // prepare each floor for keywords and build floor pagination
     $('.floornav').append('<li>'+this.name+'</li>');
-    $('.floornav > li:last-child').click(function(){
+    $('.floornav > li:last-child').bind('touchstart',function(){
       changeFloorPlan(floorid,false);
     });
     $('<img/>').attr('src', '/' + this.filename);
@@ -83,7 +83,7 @@ jQuery(function($){
 
 	// Preload images
         $('<img/>').attr('src', '/' + this.filename);
-        $('.keywords > li:last-child > ul > li:last-child').click(function(){
+        $('.keywords > li:last-child > ul > li:last-child').bind('touchstart',function(){
           global.activeKeywordId = $(this).attr('data-id');
       //    if(floorid != global.activeFloor) {
             changeFloor(floorid);
@@ -128,7 +128,7 @@ jQuery(function($){
     }
   }
 
-  $('.topbar .aggregate').click(function(e){
+  $('.topbar .aggregate').bind('touchstart',function(e){
     e.preventDefault();
 if($(this).hasClass('act')){
   $(this).removeClass('act');
@@ -217,7 +217,7 @@ else{
                $(itemClicked).append('<ul class="floor-list"></ul>');
              }
              $('ul',itemClicked).append('<li>' + floor.name+'</li>');
-             $('ul > li:last-child',itemClicked).click(function(e){
+             $('ul > li:last-child',itemClicked).bind('touchstart',function(e){
                e.stopPropagation();
                global.activeFloor = floor.id;
                changeFloorPlan(floor.id ,false);
