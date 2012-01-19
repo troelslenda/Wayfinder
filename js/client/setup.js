@@ -109,13 +109,13 @@ $('body .topbar').html('X' +  ':' + pos.x+ " \nY" + ':'+pos.y);
 
 end = e.originalEvent.changedTouches[0];
 
-$('body .topbar').html('X' + end.screenX + ':' + pos.x+ " \nY" + end.screenY + ':'+pos.y);
+$('body .topbar .logo').html('X' + end.screenX + ':' + pos.x+ " \nY" + end.screenY + ':'+pos.y);
 
 
-        if(e.originalEvent.touches[0].pageX != pos.x){
+        if(end.originalEvent.touches[0].pageX != pos.x){
           return;
         }
-        if(e.originalEvent.touches[0].pageY != pos.y){
+        if(end.originalEvent.touches[0].pageY != pos.y){
           return;
         }
 
