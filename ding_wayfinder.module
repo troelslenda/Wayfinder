@@ -94,13 +94,13 @@ function ding_wayfinder_settings_form($form_state) {
  * Set library via POST
  */
 function ding_wayfinder_ajax_save_clients() {
-print 'frisk';
   $name = filter_xss($_POST['clientname']);
   $clients = unserialize(variable_get('ding_wayfinder_clients_'.arg(1),array()));
   // add client if it dosen't exist and set last update time;
   $clients[$name] = format_date(time());
   
   variable_set('ding_wayfinder_clients_'.arg(1),serialize($clients));
+  print t('"!name" is now registered with server',array('!name' => $name));
 }
 
 
