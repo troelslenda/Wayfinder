@@ -307,6 +307,7 @@ function ding_wayfinder_views_default_views() {
   $handler->override_option('cache', array(
     'type' => 'none',
   ));
+  $handler->override_option('items_per_page', 0);
   $handler->override_option('style_plugin', 'weight');
   $handler->override_option('style_options', array(
     'grouping' => '',
