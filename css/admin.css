@@ -8,3 +8,13 @@ color:#fff;
 .settings p {
 margin:0;
 }
+.save_settings_btn {
+position:absolute;
+border:0.2em solid red;
+left:1em;
+bottom:1em;
+font-size:1em;
+padding:0.5em;
+border-radius: 3px;
+z-index:5;
+}

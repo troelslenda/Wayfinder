@@ -309,10 +309,12 @@ ll.d(Drupal.settings.ding_wayfinder.settings.wayfinder_path);
       drawPoint();
     }
 
-    $('body').append('<form action="" method="post" class="settings"><label><p>Devicename:</p><input placeholder="give the device a name" type="text" name="devicename" /></label><input type="submit"value="set"></form>');
+    $('body').append('<form action="" method="post" class="settings"><label><p>'+Drupal.t('Devicename:')+'</p><input placeholder="give the device a name" type="text" name="devicename" /></label></form><div class="red-gradient save_settings_btn">'+Drupal.t('Save Settings')+'</div>');
     $('input[name=devicename]').val(localStorage.getItem('devicename'));
-    $('form').submit(function(e){
-      e.preventDefault();
+    $('.save_settings_btn').click(function(){
+//      e.preventDefault();
+
+//console.log('fdfd');
 
       devicename = $('input[name=devicename]',this).val();
 //ll.d($('input[name=devicename]',this).val());
@@ -325,7 +327,7 @@ ll.d(Drupal.settings.ding_wayfinder.settings.wayfinder_path);
     //  return false;
     //ll.d('submit');  
     });
-    $('.settings').append('<div><label><p>Rotate map:</p><button class="rotate">Rotate</button></label></div>');
+    $('.settings').append('<div><label><p>'+Drupal.t('Rotate map:')+'</p><button class="rotate">'+Drupal.t('Rotate')+'</button></label></div>');
     $('.rotate').click(function(e){
       e.preventDefault();
       if(localStorage.getItem('rotated') == '0'){
@@ -374,7 +376,7 @@ var appReset = {
     this.callback();
     global.aggregate = false;
     drawPoint();
-    ll.d('app resetting!');
+ //   ll.d('app resetting!');
   }
 }
 
