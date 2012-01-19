@@ -291,8 +291,17 @@ function ding_wayfinder_views_pre_render(&$view) {
   }
   switch ($view->current_display) {
     case 'page_1':
+
+      $vocabs = taxonomy_get_vocabularies();
+      foreach ($vocabs as $vocab_object) {
+        if ($vocab_object->module == 'ding_wayfinder') {
+          $vid =  $vocab_object->vid;
+        }
+      }
+
       $links[] = l(t('Back to Floors'),'admin/settings/wayfinder/' . $view->args[0] . '/floors');
       $links[] = l(t('Add another keyword'),'node/add/wf-keyword/' . $view->args[1],array('query' => array('destination' => 'admin/settings/wayfinder/' . $view->args[0] . '/' . $view->args[1]. '/keywords')));
+      $links[] = l(t('Manage keyword collections'),'admin/content/taxonomy/'.$vid,array('query' => array('destination' => 'admin/settings/wayfinder/' . $view->args[0] . '/' . $view->args[1]. '/keywords')));
       $title = $library . ' : ' . $floor . ' : ' . t('Keywords');
       break;
 
