@@ -312,20 +312,12 @@ ll.d(Drupal.settings.ding_wayfinder.settings.wayfinder_path);
     $('body').append('<form action="" method="post" class="settings"><label><p>'+Drupal.t('Devicename:')+'</p><input placeholder="give the device a name" type="text" name="devicename" /></label></form><div class="red-gradient save_settings_btn">'+Drupal.t('Save Settings')+'</div>');
     $('input[name=devicename]').val(localStorage.getItem('devicename'));
     $('.save_settings_btn').click(function(){
-//      e.preventDefault();
 
-//console.log('fdfd');
+      devicename = $('input[name=devicename]').val();
 
-      devicename = $('input[name=devicename]',this).val();
-//ll.d($('input[name=devicename]',this).val());
       localStorage.setItem('devicename',devicename);
       $.post('wayfinder/post_settings',{'clientname' : devicename},function(data){alert(data)});
       
-//      ll.d($('button:clicked'));
-
- //     ll.d(e);
-    //  return false;
-    //ll.d('submit');  
     });
     $('.settings').append('<div><label><p>'+Drupal.t('Rotate map:')+'</p><button class="rotate">'+Drupal.t('Rotate')+'</button></label></div>');
     $('.rotate').click(function(e){
