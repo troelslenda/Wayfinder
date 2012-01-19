@@ -13,12 +13,12 @@ function ding_wayfinder_menu() {
     'access arguments' => array('access content'), 
     'type' => MENU_CALLBACK,
   );
-  $items['biblioteker/%/wayfinder/cache'] = array(
+/*  $items['biblioteker/%/wayfinder/cache'] = array(
     'title' => 'Digital Wayfinder frontend', 
     'page callback' => 'ding_wayfinder_cache', 
     'access arguments' => array('access content'), 
     'type' => MENU_CALLBACK,
-  );
+  );*/
   $items['biblioteker/%/wayfinder/post_settings'] = array(
     'title' => 'Digital Wayfinder frontend', 
     'page callback' => 'ding_wayfinder_ajax_save_clients', 
@@ -29,20 +29,20 @@ function ding_wayfinder_menu() {
     'title' => 'Wayfinder Library',
     'description' => 'Setup and administer Digital Wayfinder for all libraries',
     'page callback' => 'ding_wayfinder_clients', 
-    'access arguments' => array('access content'), 
+    'access arguments' => array('access administration pages'), 
     'type' => MENU_NORMAL_ITEM,
   );
   $items['admin/settings/wayfinder/%/clients'] = array(
     'title' => 'Digital Wayfinder Clients', 
 //    'page callback' => 'ding_wayfinder_clients', 
-    'access arguments' => array('access content'), 
+    'access arguments' => array('access administration pages'), 
     'type' => MENU_DEFAULT_LOCAL_TASK,
   );
   $items['admin/settings/wayfinder/%/clients/%/remove'] = array(
     'title' => 'Digital Wayfinder Clients', 
     'page callback' => 'ding_wayfinder_clients_remove',
     'page arguments' => array(3,5),
-    'access arguments' => array('access content'), 
+    'access arguments' => array('access administration pages'), 
     'type' => MENU_CALLBACK,
   );
 
@@ -304,7 +304,7 @@ function ding_wayfinder_views_pre_render(&$view) {
       break;
 
   }
-  $view->display_handler->options['header'] = theme('item_list', $links);
+  $view->display_handler->options['footer'] = theme('item_list', $links);
   drupal_set_title($title);
 }
 
