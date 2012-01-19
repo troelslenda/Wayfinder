@@ -112,10 +112,10 @@ end = e.originalEvent.changedTouches[0];
 $('body .topbar .logo').html('X' + end.screenX + ':' + pos.x+ " \nY" + end.screenY + ':'+pos.y);
 
 
-        if(end.originalEvent.touches[0].screenX != pos.x){
+        if(end.screenX != pos.x){
           return;
         }
-        if(end.originalEvent.touches[0].screenY != pos.y){
+        if(end.screenY != pos.y){
           return;
         }
 
