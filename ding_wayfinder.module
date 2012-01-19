@@ -48,7 +48,7 @@ function ding_wayfinder_menu() {
 
 
   $items['admin/settings/wayfinder/%/settings'] = array(
-    'description'      => 'settings for eLib SOAP webservice',
+    'description'      => 'settings for wayfinder',
     'access arguments' => array('access administration pages'),
     'page callback'    => 'drupal_get_form',
     'page arguments'   => array('ding_wayfinder_settings_form',1),
@@ -107,6 +107,9 @@ function ding_wayfinder_ajax_save_clients() {
 function ding_wayfinder_settings() {
   return 'settings';
 }
+/**
+ * Pagecallback to list all connected clients
+ */ 
 
 function ding_wayfinder_clients() {
   $clients = unserialize(variable_get('ding_wayfinder_clients_'.arg(3),array()));
@@ -137,8 +140,10 @@ function ding_wayfinder_clients() {
   drupal_add_js(drupal_get_path('module', 'ding_wayfinder').'/js/admin.js');
 
   // build client list
-  $output = theme('table',array(t('Clients'),t('Status'),t('Reloaded last'),t('Last answer'),t('Remove')),$rows);
-  $output .= theme('button',array('#id' => 'reload', '#value' => t('Reload clients'), '#type' => 'submit', '#button_type' => 'submit'));
+  $output = '<p class="connection_status">'.t('Status: <span> Trying to connect...</span>').'</p>';
+  $output .= theme('table',array(t('Clients'),t('Status'),t('Reloaded last'),t('Last answer'),t('Remove')),$rows);
+  $output .= theme('button',array('#id' => 'reload', '#value' => t('Update clients'), '#type' => 'submit', '#button_type' => 'submit'));
+  $output .= theme('button',array('#id' => 'reload_list', '#value' => t('Reload client list'), '#type' => 'submit', '#button_type' => 'submit'));
 
   return $output;
 }
