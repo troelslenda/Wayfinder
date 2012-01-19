@@ -54,8 +54,8 @@ jQuery(function($){
 
   if (isiPad && !webApp) {
     // prevent application to be run as a webpage
-    $('body').prepend('<div class="error overlay"><h1 class="webapp">Please add to homescreen<br>inorder to use<br>this app</h1><br><a href="http://reload.dk" target="_blank"><img src="theme/reload.svg"></a></div>');
-    return false;
+//    $('body').prepend('<div class="error overlay"><h1 class="webapp">Please add to homescreen<br>inorder to use<br>this app</h1><br><a href="http://reload.dk" target="_blank"><img src="theme/reload.svg"></a></div>');
+//    return false;
   }
 
   window.addEventListener("orientationchange", function() {
@@ -65,12 +65,20 @@ jQuery(function($){
 
   // set pos for when touch starts
  $('body').bind("touchstart", function(e){
-//alert('dds');
-  pos = e.originalEvent.touches[0];
-
-
-
+//ll.d('dds');
+  pos = {
+ 'x' : e.originalEvent.touches[0].screenX + '',
+ 'y' : e.originalEvent.touches[0].screenY + '',
+}//ll.d(e)
+//$('body .topbar').html('X' +  ':' + pos.screenX+ " \nY" + ':'+pos.screenY);
  });
+/* $('body').bind("touchend", function(e){
+//ll.d('dds');
+//ll.d(e);
+
+  end = e.originalEvent.changedTouches[0];
+$('body .topbar').html('X' +  ':' + pos.x+ " \nY" + ':'+pos.y);
+ });*/
 
   
 
@@ -101,15 +109,15 @@ jQuery(function($){
 
 end = e.originalEvent.changedTouches[0];
 
-$('body .topbar').html('X' + end.pageX + ':' + pos.pageX+ " \nY" + end.pageY + ':'+pos.pageY);
+$('body .topbar').html('X' + end.screenX + ':' + pos.x+ " \nY" + end.screenY + ':'+pos.y);
 
 
-      /*  if(e.originalEvent.touches[0].pageX != pos.originalEvent.touches[0].pageX){
+        if(e.originalEvent.touches[0].pageX != pos.x){
           return;
         }
-        if(e.originalEvent.touches[0].pageY != pos.originalEvent.touches[0].pageY){
+        if(e.originalEvent.touches[0].pageY != pos.y){
           return;
-        }*/
+        }
 
 //console.log( $('.keywords li ul').scrollTop());
 
