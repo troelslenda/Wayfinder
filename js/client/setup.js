@@ -12,12 +12,11 @@ jQuery(function($){
   if(window.location.hash.substring(1) == 'clear') {
     localStorage.clear();
     alert('localStorage cleared');
-    $('link[rel=apple-touch-icon-precomposed]').attr('href','theme/admin_icon.png');
+    $('link[rel=apple-touch-icon-precomposed]').attr('href','/' + Drupal.settings.ding_wayfinder.settings.wayfinder_path + '/admin_icon.png');
     return;
-
   }
   if(window.location.hash.substring(1) == 'admin') {
-    $('link[rel=apple-touch-icon-precomposed]').attr('href','theme/admin_icon.png');
+    $('link[rel=apple-touch-icon-precomposed]').attr('href','/' + Drupal.settings.ding_wayfinder.settings.wayfinder_path + '/admin_icon.png');
   }
 
   isiPad = navigator.userAgent.match(/iPad/i) != null;
@@ -417,7 +416,7 @@ function drawPoint(){
     $('body').append('<div class="location"></div>');
   }
   $('.location').css({
-    'top' : (localStorage.getItem("y")-40)+'px',
+    'top' : (localStorage.getItem("y")-60)+'px',
     'left' : localStorage.getItem("x")+'px'
   }).show();
 }
