@@ -2,6 +2,8 @@ var data = {};
 
 var global = {};
 
+var pos = {};
+
 jQuery(function($){
 
 
@@ -61,6 +63,15 @@ jQuery(function($){
   }, false);
 
 
+  // set pos for when touch starts
+ $('body').bind("touchstart", function(e){
+//alert('dds');
+  pos = e.originalEvent.touches[0];
+
+
+
+ });
+
   
 
   // build floors list
@@ -83,7 +94,33 @@ jQuery(function($){
 
 	// Preload images
         $('<img/>').attr('src', '/' + this.filename);
-        $('.keywords > li:last-child > ul > li:last-child').bind('touchstart',function(){
+
+//var lastscroll = start;
+
+        $('.keywords > li:last-child > ul > li:last-child').bind('touchend',function(e){
+
+end = e.originalEvent.changedTouches[0];
+
+$('body .topbar').html('X' + end.pageX + ':' + pos.pageX+ " \nY" + end.pageY + ':'+pos.pageY);
+
+
+      /*  if(e.originalEvent.touches[0].pageX != pos.originalEvent.touches[0].pageX){
+          return;
+        }
+        if(e.originalEvent.touches[0].pageY != pos.originalEvent.touches[0].pageY){
+          return;
+        }*/
+
+//console.log( $('.keywords li ul').scrollTop());
+
+//          if($('.keywords li ul').scrollTop() != lastscroll) {
+
+//return;
+           // ll.d('its moved');
+  //        }
+
+//          lastscroll = $('.keywords li ul').scrollTop();
+
           global.activeKeywordId = $(this).attr('data-id');
       //    if(floorid != global.activeFloor) {
             changeFloor(floorid);
