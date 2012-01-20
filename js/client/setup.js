@@ -12,12 +12,12 @@ jQuery(function($){
   if(window.location.hash.substring(1) == 'clear') {
     localStorage.clear();
     alert('localStorage cleared');
-    $('link[rel=apple-touch-icon-precomposed]').attr('href','/' + Drupal.settings.ding_wayfinder.settings.wayfinder_path + '/admin_icon.png');
+    $('link[rel=apple-touch-icon-precomposed]').attr('href','/' + Drupal.settings.ding_wayfinder.settings.wayfinder_path + '/images/admin_icon.png');
     return;
   }
-  if(window.location.hash.substring(1) == 'admin') {
-    $('link[rel=apple-touch-icon-precomposed]').attr('href','/' + Drupal.settings.ding_wayfinder.settings.wayfinder_path + '/admin_icon.png');
-  }
+ /* if(window.location.hash.substring(1) == 'admin') {
+    $('link[rel=apple-touch-icon-precomposed]').attr('href','/' + Drupal.settings.ding_wayfinder.settings.wayfinder_path + '/images/admin_icon.png');
+  }*/
 
   isiPad = navigator.userAgent.match(/iPad/i) != null;
   webApp = window.navigator.standalone;
@@ -332,7 +332,7 @@ ll.d(Drupal.settings.ding_wayfinder.settings.wayfinder_path);
 
   if(isAdminApp){
     // show a diffrent app icon
-    $('link[rel=apple-touch-icon-precomposed]').attr('href','/' + Drupal.settings.ding_wayfinder.settings.wayfinder_path + '/admin_icon.png');
+    $('link[rel=apple-touch-icon-precomposed]').attr('href','/' + Drupal.settings.ding_wayfinder.settings.wayfinder_path + '/images/admin_icon.png');
 
     $('head').append('<link rel="stylesheet" type="text/css" href="/' + Drupal.settings.ding_wayfinder.settings.wayfinder_path + '/css/admin.css">');
     $('.floorplan-image').bind("touchstart touchmove", touchStart);
