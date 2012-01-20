@@ -33,13 +33,17 @@ jQuery(function(){
     if (message.recipient != 'server') {
       return;
     }
+//console.log(message);
+
     if(message.action == 'lastupdate') {
     $('#page #content table tbody tr').each(function(){
-if ($('td:first-child',this).html() == message.name) {
-console.log(message);
+if ($('td:first-child',this).hasClass(message.name)) {
+//console.log(message);
 	$('td:nth-child(2)',this).css('background','green').html('').addClass('connected');
 	$('td:nth-child(3)',this).html(message.data);
-	$.post('/biblioteker/1/wayfinder/post_settings',{'clientname' : message.name},function(data){console.log(data)});
+	$.post('/biblioteker/1/wayfinder/post_settings',{'clientname' : message.name},function(data){
+//console.log(data)
+        });
 //	$.POST();
 }
 //      console.log();

@@ -94,11 +94,21 @@ function ding_wayfinder_settings_form($form_state) {
  * Set library via POST
  */
 function ding_wayfinder_ajax_save_clients() {
+ // variable_set('ding_wayfinder_clients_'.arg(1),"");
+  if($_POST['deviceid'] == ''){
+    return;
+  }
+
   $name = filter_xss($_POST['clientname']);
+  $deviceid = filter_xss($_POST['deviceid']);
   $clients = unserialize(variable_get('ding_wayfinder_clients_'.arg(1),array()));
   // add client if it dosen't exist and set last update time;
-  $clients[$name] = format_date(time());
+//  var_dump($deviceid);
+
+  $clients[$deviceid] = array('name' => $name, 'time' => format_date(time()));
   
+  //var_dump($clients);
+
   variable_set('ding_wayfinder_clients_'.arg(1),serialize($clients));
   print t('"!name" is now registered with server',array('!name' => $name));
 }
@@ -114,9 +124,11 @@ function ding_wayfinder_settings() {
 function ding_wayfinder_clients() {
   $clients = unserialize(variable_get('ding_wayfinder_clients_'.arg(3),array()));
 
+//var_dump($clients);
+
   $i=0;
-  foreach ($clients as $key => $lastanswer) {
-    $rows[] = array($key,'Wait...','---',$lastanswer,l(t('X'),'admin/settings/wayfinder/'.arg(3).'/clients/'.$key.'/remove',array('query' => array('destination' => 'admin/settings/wayfinder/'.arg(3).'/clients'))));
+  foreach ($clients as $key => $client) {
+    $rows[] = array(array('data' => $client['name'],'class' => $key),'Wait...','---',$client['time'],l(t('X'),'admin/settings/wayfinder/'.arg(3).'/clients/'.$key.'/remove',array('query' => array('destination' => 'admin/settings/wayfinder/'.arg(3).'/clients'))));
     $clientsJS[] = $key;
 
     $i++;
@@ -204,6 +216,7 @@ $data = ding_wayfinder_get_keywords(arg(1));
 $settings = array(
 	'wayfinder_path' => drupal_get_path('module','ding_wayfinder'),
 	'launched' => format_date(time()),
+        'device_identifier' => md5(time()),
 	'server' => variable_get('ding_wayfinder_server', ''),
 );
 

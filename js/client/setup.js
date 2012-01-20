@@ -351,7 +351,7 @@ ll.d(Drupal.settings.ding_wayfinder.settings.wayfinder_path);
       devicename = $('input[name=devicename]').val();
 
       localStorage.setItem('devicename',devicename);
-      $.post('wayfinder/post_settings',{'clientname' : devicename},function(data){alert(data)});
+      $.post('wayfinder/post_settings',{'clientname' : devicename,'deviceid':dwf.deviceID},function(data){alert(data)});
       
     });
     $('.settings').append('<div><label><p>'+Drupal.t('Rotate map:')+'</p><button class="rotate">'+Drupal.t('Rotate')+'</button></label></div>');
@@ -433,7 +433,14 @@ function removePoint(){
 
 var dwf = {
   'init' : function(){
-    dwf.rotateMap();
+    this.rotateMap();
+    this.identify();
+  },
+  identify : function(){
+    if(!localStorage.getItem('device_identifier')){
+      localStorage.setItem('device_identifier',Drupal.settings.ding_wayfinder.settings.device_identifier);
+    }
+    dwf.deviceID = localStorage.getItem('device_identifier');
   },
   'buildKeywords' : function(){},
 
