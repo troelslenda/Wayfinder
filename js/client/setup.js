@@ -53,8 +53,8 @@ jQuery(function($){
 
   if (isiPad && !webApp) {
     // prevent application to be run as a webpage
-//    $('body').prepend('<div class="error overlay"><h1 class="webapp">Please add to homescreen<br>inorder to use<br>this app</h1><br><a href="http://reload.dk" target="_blank"><img src="theme/reload.svg"></a></div>');
-//    return false;
+    $('body').prepend('<div class="error overlay"><h1 class="webapp">Please add to homescreen<br>inorder to use<br>this app</h1><br><a href="http://reload.dk" target="_blank"><img src="theme/reload.svg"></a></div>');
+    return false;
   }
 
   window.addEventListener("orientationchange", function() {
