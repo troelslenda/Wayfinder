@@ -304,14 +304,6 @@ function ding_wayfinder_views_pre_render(&$view) {
   }
   switch ($view->current_display) {
     case 'page_1':
-
-      $vocabs = taxonomy_get_vocabularies();
-      foreach ($vocabs as $vocab_object) {
-        if ($vocab_object->module == 'ding_wayfinder') {
-          $vid =  $vocab_object->vid;
-        }
-      }
-
       $links[] = l(t('Back to Floors'),'admin/settings/wayfinder/' . $view->args[0] . '/floors');
       $links[] = l(t('Add another keyword'),'node/add/wf-keyword/' . $view->args[1],array('query' => array('destination' => 'admin/settings/wayfinder/' . $view->args[0] . '/' . $view->args[1]. '/keywords')));
       $links[] = l(t('Manage keyword collections'),'admin/content/taxonomy/'.$vid,array('query' => array('destination' => 'admin/settings/wayfinder/' . $view->args[0] . '/' . $view->args[1]. '/keywords')));
@@ -326,7 +318,7 @@ function ding_wayfinder_views_pre_render(&$view) {
       break;
 
   }
-  $view->display_handler->options['footer'] = theme('item_list', $links);
+//  $view->display_handler->options['footer'] = theme('item_list', $links);
   drupal_set_title($title);
 }
 
@@ -334,10 +326,86 @@ function ding_wayfinder_views_pre_render(&$view) {
  * Implements hook_form_alter().
  */
 function ding_wayfinder_form_alter(&$form,$form_state,$form_id) {
+
+//dsm($form);
+
+
+
+  if($form_id == 'weight_view_weight_form_wayfinder_page_1_drag') {
+
+    $form['#submit'][] = 'ding_wayfinder_weight_view_weight_form_wayfinder_page_1_drag_submit';
+    $form['back_link'] = array(
+      '#type' => 'submit',
+      '#value' => t('Back to Floors'),
+    );
+    $form['new_link'] = array(
+      '#type' => 'submit',
+      '#value' => t('Add another keyword'),
+    );
+    $form['manage_link'] = array(
+      '#type' => 'submit',
+      '#value' => t('Manage keyword collections'),
+    );
+  }
+  if($form_id == 'weight_view_weight_form_wayfinder_page_2_drag') {
+    $form['#submit'][] = 'ding_wayfinder_weight_view_weight_form_wayfinder_page_2_drag_submit';
+    $form['back_link'] = array(
+      '#type' => 'submit',
+      '#value' => t('Back to Client list'),
+    );
+    $form['new_link'] = array(
+      '#type' => 'submit',
+      '#value' => t('Add another floor'),
+    );
+  }
+
   if($form_id == 'wf_floor_node_form' && arg(3)) {
     $form['field_library']['#default_value'][0]['nid'] = arg(3);
   }
   if($form_id == 'wf_keyword_node_form' && arg(3)) {
     $form['field_floor']['#default_value'][0]['nid'] = arg(3);
   }
+}
+
+function ding_wayfinder_weight_view_weight_form_wayfinder_page_1_drag_submit($form,$form_state) {
+  switch($form_state['clicked_button']['#id']){
+    case 'edit-new-link':
+      drupal_goto(url('node/add/wf-keyword/' . arg(4)),array('destination' => 'admin/settings/wayfinder/' . arg(3) . '/' . arg(4). '/keywords'));
+      exit();
+      break; 
+    case 'edit-back-link':
+      drupal_goto(url('admin/settings/wayfinder/' .  arg(3). '/floors'));
+      exit();
+break;
+      
+    case 'edit-manage-link':
+
+      $vocabs = taxonomy_get_vocabularies();
+      foreach ($vocabs as $vocab_object) {
+        if ($vocab_object->module == 'ding_wayfinder') {
+          $vid =  $vocab_object->vid;
+        }
+      }
+     
+
+      drupal_goto(url('admin/content/taxonomy/'.$vid));
+      exit();
+break;
+
+  }
+}
+function ding_wayfinder_weight_view_weight_form_wayfinder_page_2_drag_submit($form,$form_state) {
+
+  switch($form_state['clicked_button']['#id']){
+    case 'edit-new-link':
+      drupal_goto(url('/node/add/wf-floor/'.arg(3)),array('destination' => 'admin/settings/wayfinder/' . arg(3). '/floors'));
+      exit();
+      break; 
+    case 'edit-back-link':
+      drupal_goto(url('/admin/settings/wayfinder/' .  arg(3)));
+      exit();
+break;
+
+}
+
 }
