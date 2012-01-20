@@ -56,6 +56,8 @@ console.log(message);
       'recipient' : 'all',
       'action' : 'restart'
     };
+ $('#page #content table tbody tr td.connected').css('background','#666');//.addClass('connected');
+
     server.send(JSON.stringify(message));
   });
   $('#page #content #reload_list').click(function(){
