@@ -8,16 +8,17 @@ var websocket = {
   },
   'handlers' : function(){
     server.bind('open',function(){
-      websocket.connectionstatus('on');
+      messages.websocketConnection(true);
+      server.send(JSON.stringify(websocket.updatemessage()));
     });
     server.bind('connection_disconnected', function() {
-      websocket.connectionstatus('off');
+      messages.websocketConnection(false);
     });
     server.bind('close', function() {
-      websocket.connectionstatus('off');
+      messages.websocketConnection(false);
     });
     server.bind('connection_failed', function() {
-      websocket.connectionstatus('off');
+      messages.websocketConnection(false);
     });
 
     server.bind('message',function(data){
@@ -47,3 +48,30 @@ var websocket = {
 jQuery(function(){
   websocket.init();
 });
+
+var messages = {
+  websocketConnection : function(on){
+    $('.websocket_connection_status').remove();
+    if(on){
+      $('<span>',{class : 'connected websocket_connection_status'}).appendTo('body');
+      setTimeout(function(){
+        $('.websocket_connection_status.connected').remove();
+      },15000);
+    }
+    if(on==false){ 
+      $('<span>',{class : 'error websocket_connection_status'}).appendTo('body');
+    }
+  },
+  internetConnection : function(on){
+    $('.internet_connection_status').remove();
+    if(on){
+      $('<span>',{class : 'connected internet_connection_status'}).appendTo('body');
+      setTimeout(function(){
+        $('.internet_connection_status.connected').remove();
+      },15000);
+    }
+    if(on==false){ 
+      $('<span>',{class : 'error internet_connection_status'}).appendTo('body');
+    }
+  }
+}

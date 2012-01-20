@@ -1,0 +1,20 @@
+.internet_connection_status,
+.websocket_connection_status {
+  position: absolute;
+  bottom: 2px;
+  left: 2px;
+  height: 4px;
+  width: 4px;
+  background: gray;
+}
+.websocket_connection_status {
+/*  left: 8px; */
+}
+.connected.internet_connection_status,
+.connected.websocket_connection_status {
+  background : green;
+}
+.error.internet_connection_status,
+.error.websocket_connection_status {
+  background : red;
+}
