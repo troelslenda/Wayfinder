@@ -247,11 +247,11 @@ function ding_wayfinder_get_keywords($lib) {
   $data = array();
 
   // loop all floors
-  $result = db_query('SELECT n.nid FROM {node} AS n LEFT JOIN content_type_wf_floor AS floor ON n.nid = floor.nid WHERE floor.field_library_nid = '.$lib);
+  $result = db_query('SELECT n.nid FROM {node} AS n LEFT JOIN content_type_wf_floor AS floor ON n.nid = floor.nid WHERE floor.field_library_nid = '.$lib. ' ORDER BY n.sticky DESC');
   while ($obj = db_fetch_object($result)) {
     $node = node_load($obj->nid);
     // loop all keywords for given floor
-    $keyword_result = db_query('SELECT n.nid FROM {node} AS n LEFT JOIN content_type_wf_keyword AS kw ON n.nid = kw.nid WHERE kw.field_floor_nid = '. $obj->nid);
+    $keyword_result = db_query('SELECT n.nid FROM {node} AS n LEFT JOIN content_type_wf_keyword AS kw ON n.nid = kw.nid WHERE kw.field_floor_nid = '. $obj->nid . ' ORDER BY n.sticky DESC');
     while ($obj = db_fetch_object($keyword_result)) {
       $keyword_node = node_load($obj->nid);
       $keyword['name'] = $keyword_node->title;
