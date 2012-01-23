@@ -28,7 +28,6 @@ class WayfinderApplication extends Application
     {
         foreach ($this->clients as $sendto) {
             $sendto->send($data);
-var_dump($sendto);
         }
     }
 }
