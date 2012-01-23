@@ -309,7 +309,7 @@ function ding_wayfinder_views_pre_render(&$view) {
    //   $links[] = l(t('Manage keyword collections'),'admin/content/taxonomy/'.$vid,array('query' => array('destination' => 'admin/settings/wayfinder/' . $view->args[0] . '/' . $view->args[1]. '/keywords')));
       if($view->total_rows == 0) {
         drupal_set_message(t('Theres no keywords on this floor, therefore you are prompted to add one'));
-        drupal_goto('node/add/wf-keyword/' . $view->args[1], array('destination' => 'admin/settings/wayfinder/' . $view->args[0]. '/floors' . $view->args[1]. '/keywords'));
+        drupal_goto('node/add/wf-keyword/' . $view->args[1], array('destination' => 'admin/settings/wayfinder/' . $view->args[0]. '/' . $view->args[1]. '/keywords'));
       }
       $title = $library . ' : ' . $floor . ' : ' . t('Keywords');
       break;
@@ -338,8 +338,10 @@ function ding_wayfinder_form_alter(&$form,$form_state,$form_id) {
 //dsm($form);
 
 
+//var_dump($form_id);
 
-  if($form_id == 'weight_view_weight_form_wayfinder_page_1_drag') {
+
+  if(arg(5) == 'keywords') {
 
     $form['#submit'][] = 'ding_wayfinder_weight_view_weight_form_wayfinder_page_1_drag_submit';
     $form['back_link'] = array(
@@ -355,7 +357,7 @@ function ding_wayfinder_form_alter(&$form,$form_state,$form_id) {
       '#value' => t('Manage keyword collections'),
     );
   }
-  if($form_id == 'weight_view_weight_form_wayfinder_page_2_drag') {
+  if(arg(4) == 'floors') {
     $form['#submit'][] = 'ding_wayfinder_weight_view_weight_form_wayfinder_page_2_drag_submit';
     $form['back_link'] = array(
       '#type' => 'submit',
