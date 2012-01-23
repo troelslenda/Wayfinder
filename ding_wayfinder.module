@@ -304,18 +304,26 @@ function ding_wayfinder_views_pre_render(&$view) {
   }
   switch ($view->current_display) {
     case 'page_1':
-      $links[] = l(t('Back to Floors'),'admin/settings/wayfinder/' . $view->args[0] . '/floors');
-      $links[] = l(t('Add another keyword'),'node/add/wf-keyword/' . $view->args[1],array('query' => array('destination' => 'admin/settings/wayfinder/' . $view->args[0] . '/' . $view->args[1]. '/keywords')));
-      $links[] = l(t('Manage keyword collections'),'admin/content/taxonomy/'.$vid,array('query' => array('destination' => 'admin/settings/wayfinder/' . $view->args[0] . '/' . $view->args[1]. '/keywords')));
+    //  $links[] = l(t('Back to Floors'),'admin/settings/wayfinder/' . $view->args[0] . '/floors');
+//      $links[] = l(t('Add another keyword'),'node/add/wf-keyword/' . $view->args[1],array('query' => array('destination' => 'admin/settings/wayfinder/' . $view->args[0] . '/' . $view->args[1]. '/keywords')));
+   //   $links[] = l(t('Manage keyword collections'),'admin/content/taxonomy/'.$vid,array('query' => array('destination' => 'admin/settings/wayfinder/' . $view->args[0] . '/' . $view->args[1]. '/keywords')));
+      if($view->total_rows == 0) {
+        drupal_set_message(t('Theres no keywords on this floor, therefore you are prompted to add one'));
+        drupal_goto('node/add/wf-keyword/' . $view->args[1], array('destination' => 'admin/settings/wayfinder/' . $view->args[0]. '/floors' . $view->args[1]. '/keywords'));
+      }
       $title = $library . ' : ' . $floor . ' : ' . t('Keywords');
       break;
 
     case 'page_2':
-      $links[] = l(t('Back to Client list'),'admin/settings/wayfinder/'.$view->args[0]);
-      $links[] = l(t('Add another floor'),'node/add/wf-floor/' . $view->args[0],array('query' => array('destination' => 'admin/settings/wayfinder/' . $view->args[0]. '/floors')));
-      $title = $library . ' : ' . $floor . ' : ' . t('Keywords');
+//      $links[] = l(t('Back to Client list'),'admin/settings/wayfinder/'.$view->args[0]);
+//      $title = $library . ' : ' . $floor . ' : ' . t('Keywords');
+      if($view->total_rows == 0) {
+        drupal_set_message(t('Theres no floors connected with the library, therefore you are prompted to add one'));
+        drupal_goto('node/add/wf-floor/' . $view->args[0],array('destination' => 'admin/settings/wayfinder/' . $view->args[0]. '/floors'));
+      }
       $title = $library . ' : ' . t('Floors');
       break;
+
 
   }
 //  $view->display_handler->options['footer'] = theme('item_list', $links);
