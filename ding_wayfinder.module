@@ -13,12 +13,6 @@ function ding_wayfinder_menu() {
     'access arguments' => array('access content'), 
     'type' => MENU_CALLBACK,
   );
-/*  $items['biblioteker/%/wayfinder/cache'] = array(
-    'title' => 'Digital Wayfinder frontend', 
-    'page callback' => 'ding_wayfinder_cache', 
-    'access arguments' => array('access content'), 
-    'type' => MENU_CALLBACK,
-  );*/
   $items['biblioteker/%/wayfinder/post_settings'] = array(
     'title' => 'Digital Wayfinder frontend', 
     'page callback' => 'ding_wayfinder_ajax_save_clients', 
@@ -59,12 +53,14 @@ function ding_wayfinder_menu() {
   return $items;
 }
 
+/**
+ * Settings form for Wayfinder
+ */
 function ding_wayfinder_settings_form($form_state) {
 
   $library = arg(3);
 
   $form = array();
-
   $form['wf'] = array(
     '#type'        => 'fieldset',
     '#title'       => t('Wayfinder settings'),
@@ -94,7 +90,6 @@ function ding_wayfinder_settings_form($form_state) {
  * Set library via POST
  */
 function ding_wayfinder_ajax_save_clients() {
- // variable_set('ding_wayfinder_clients_'.arg(1),"");
   if($_POST['deviceid'] == ''){
     return;
   }
@@ -103,28 +98,19 @@ function ding_wayfinder_ajax_save_clients() {
   $deviceid = filter_xss($_POST['deviceid']);
   $clients = unserialize(variable_get('ding_wayfinder_clients_'.arg(1),array()));
   // add client if it dosen't exist and set last update time;
-//  var_dump($deviceid);
 
   $clients[$deviceid] = array('name' => $name, 'time' => format_date(time()));
   
-  //var_dump($clients);
-
   variable_set('ding_wayfinder_clients_'.arg(1),serialize($clients));
   print t('"!name" is now registered with server',array('!name' => $name));
 }
 
-
-function ding_wayfinder_settings() {
-  return 'settings';
-}
 /**
  * Pagecallback to list all connected clients
  */ 
 
 function ding_wayfinder_clients() {
   $clients = unserialize(variable_get('ding_wayfinder_clients_'.arg(3),array()));
-
-//var_dump($clients);
 
   $i=0;
   foreach ($clients as $key => $client) {
@@ -167,9 +153,11 @@ function ding_wayfinder_clients_remove($library,$client) {
   drupal_goto();
 }
 
+/**
+ * Implements hook_theme().
+ */
 function ding_wayfinder_theme() {
  return array(
-    // as in 'theme('verbose_method',...)
     'ding_wayfinder_frontend_build' => array(
       'template' => 'ding-wayfinder-frontend',
       'arguments' => array(
@@ -179,22 +167,27 @@ function ding_wayfinder_theme() {
     ),
   );
 }
-
+/**
+ * Set cache file
+ */
 function ding_wayfinder_cache() {
-  header('Contesnt-Type: text/cache-manifest;');
-echo "CACHE MANIFEST
-	 index.html
-	/sites/all/modules/ding_wayfinder/css/layout.css
-css/ios.css
-
-#".time()."
+  header('Content-Type: text/cache-manifest;');
+  echo "
+  CACHE MANIFEST
+  index.html
+  css/layout.css
+  css/ios.css
+  #".time()."
 ";
 
 }
 
+/**
+ * Build frontend for wayfinder 
+ */
 function ding_wayfinder_frontend() {
 
-$modulekey = 'ding_wayfinder';
+  $modulekey = 'ding_wayfinder';
 
 $files = file_scan_directory(drupal_get_path('module', $modulekey).'/css/client', '.css');
 foreach ($files as $file) {
@@ -304,9 +297,6 @@ function ding_wayfinder_views_pre_render(&$view) {
   }
   switch ($view->current_display) {
     case 'page_1':
-    //  $links[] = l(t('Back to Floors'),'admin/settings/wayfinder/' . $view->args[0] . '/floors');
-//      $links[] = l(t('Add another keyword'),'node/add/wf-keyword/' . $view->args[1],array('query' => array('destination' => 'admin/settings/wayfinder/' . $view->args[0] . '/' . $view->args[1]. '/keywords')));
-   //   $links[] = l(t('Manage keyword collections'),'admin/content/taxonomy/'.$vid,array('query' => array('destination' => 'admin/settings/wayfinder/' . $view->args[0] . '/' . $view->args[1]. '/keywords')));
       if($view->total_rows == 0) {
         drupal_set_message(t('Theres no keywords on this floor, therefore you are prompted to add one'));
         drupal_goto('node/add/wf-keyword/' . $view->args[1], array('destination' => 'admin/settings/wayfinder/' . $view->args[0]. '/' . $view->args[1]. '/keywords'));
@@ -315,8 +305,6 @@ function ding_wayfinder_views_pre_render(&$view) {
       break;
 
     case 'page_2':
-//      $links[] = l(t('Back to Client list'),'admin/settings/wayfinder/'.$view->args[0]);
-//      $title = $library . ' : ' . $floor . ' : ' . t('Keywords');
       if($view->total_rows == 0) {
         drupal_set_message(t('Theres no floors connected with the library, therefore you are prompted to add one'));
         drupal_goto('node/add/wf-floor/' . $view->args[0],array('destination' => 'admin/settings/wayfinder/' . $view->args[0]. '/floors'));
@@ -326,7 +314,6 @@ function ding_wayfinder_views_pre_render(&$view) {
 
 
   }
-//  $view->display_handler->options['footer'] = theme('item_list', $links);
   drupal_set_title($title);
 }
 
@@ -334,12 +321,6 @@ function ding_wayfinder_views_pre_render(&$view) {
  * Implements hook_form_alter().
  */
 function ding_wayfinder_form_alter(&$form,$form_state,$form_id) {
-
-//dsm($form);
-
-
-//var_dump($form_id);
-
 
   if(arg(5) == 'keywords') {
 
@@ -386,22 +367,17 @@ function ding_wayfinder_weight_view_weight_form_wayfinder_page_1_drag_submit($fo
     case 'edit-back-link':
       drupal_goto(url('admin/settings/wayfinder/' .  arg(3). '/floors'));
       exit();
-break;
-      
+      break;
     case 'edit-manage-link':
-
       $vocabs = taxonomy_get_vocabularies();
       foreach ($vocabs as $vocab_object) {
         if ($vocab_object->module == 'ding_wayfinder') {
           $vid =  $vocab_object->vid;
         }
       }
-     
-
       drupal_goto(url('admin/content/taxonomy/'.$vid));
       exit();
-break;
-
+      break;
   }
 }
 function ding_wayfinder_weight_view_weight_form_wayfinder_page_2_drag_submit($form,$form_state) {
@@ -414,8 +390,6 @@ function ding_wayfinder_weight_view_weight_form_wayfinder_page_2_drag_submit($fo
     case 'edit-back-link':
       drupal_goto(url('/admin/settings/wayfinder/' .  arg(3)));
       exit();
-break;
-
-}
-
+      break;
+  }
 }
