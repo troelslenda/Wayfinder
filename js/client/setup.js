@@ -17,8 +17,7 @@ jQuery(function ($) {
 
   isiPad = navigator.userAgent.match(/iPad/i) != null;
   webApp = window.navigator.standalone;
-  isAdminApp = window.location.hash.substring(1) == 'admin';
-
+  isAdminApp = false;
   var initialFloor = 0;
 
   // get floor from storage
@@ -26,7 +25,7 @@ jQuery(function ($) {
     initialFloor = localStorage.getItem("floor");
     global.activeFloor = initialFloor;
   } else {
-    initialFloor = 0;
+    isAdminApp = true;
   }
 
 
