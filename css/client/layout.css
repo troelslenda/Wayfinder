@@ -205,15 +205,15 @@ margin-left:-1em;
   position:absolute;
   top:0;
   right:0;
-  height: 1024px;
-  width: 768px;
+  width: 1024px;
+  height: 768px;
 }
 .element-image {
   position:absolute;
   top:0;
   right:0;
-  height: 1024px;
-  width: 768px;
+  width: 1024px;
+  height: 768px;
   z-index:1;
 }
 
