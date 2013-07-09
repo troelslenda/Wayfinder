@@ -66,7 +66,6 @@ WebPush.prototype = {
 
     onmessage: function(evt) {
 
-ll.d(evt);
         this.dispatch('message', evt.data);
     },
 

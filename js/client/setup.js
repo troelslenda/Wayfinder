@@ -142,7 +142,7 @@ jQuery(function ($) {
     elementid = null;
     if (!reset) {
       $(data[index].keywords).each(function (i) {
-        //console.log(this);
+
         if (this.id == global.activeKeywordId) {
           elementid = i;
         }

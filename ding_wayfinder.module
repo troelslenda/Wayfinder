@@ -27,8 +27,7 @@ function ding_wayfinder_menu() {
     'type' => MENU_NORMAL_ITEM,
   );
   $items['admin/settings/wayfinder/%/clients'] = array(
-    'title' => 'Digital Wayfinder Clients', 
-//    'page callback' => 'ding_wayfinder_clients', 
+    'title' => 'Digital Wayfinder Clients',
     'access arguments' => array('access administration pages'), 
     'type' => MENU_DEFAULT_LOCAL_TASK,
   );
@@ -96,13 +95,13 @@ function ding_wayfinder_ajax_save_clients() {
 
   $name = filter_xss($_POST['clientname']);
   $deviceid = filter_xss($_POST['deviceid']);
-  $clients = unserialize(variable_get('ding_wayfinder_clients_'.arg(1),array()));
+  $clients = unserialize(variable_get('ding_wayfinder_clients_' . arg(1), array()));
   // add client if it dosen't exist and set last update time;
 
   $clients[$deviceid] = array('name' => $name, 'time' => format_date(time()));
   
-  variable_set('ding_wayfinder_clients_'.arg(1),serialize($clients));
-  print t('"!name" is now registered with server',array('!name' => $name));
+  variable_set('ding_wayfinder_clients_' . arg(1), serialize($clients));
+  print t('"!name" is now registered with server', array('!name' => $name));
 }
 
 /**
@@ -110,11 +109,11 @@ function ding_wayfinder_ajax_save_clients() {
  */ 
 
 function ding_wayfinder_clients() {
-  $clients = unserialize(variable_get('ding_wayfinder_clients_'.arg(3),array()));
+  $clients = unserialize(variable_get('ding_wayfinder_clients_' . arg(3), array()));
 
   $i=0;
   foreach ($clients as $key => $client) {
-    $rows[] = array(array('data' => $client['name'],'class' => $key),'Wait...','---',$client['time'],l(t('X'),'admin/settings/wayfinder/'.arg(3).'/clients/'.$key.'/remove',array('query' => array('destination' => 'admin/settings/wayfinder/'.arg(3).'/clients'))));
+    $rows[] = array(array('data' => $client['name'], 'class' => $key), 'Wait...', '---', $client['time'], l(t('X'), 'admin/settings/wayfinder/' . arg(3) . '/clients/' . $key . '/remove', array('query' => array('destination' => 'admin/settings/wayfinder/' . arg(3) . '/clients'))));
     $clientsJS[] = $key;
 
     $i++;
@@ -122,34 +121,27 @@ function ding_wayfinder_clients() {
 
   $settings = array(
     'wayfinder_path' => drupal_get_path('module','ding_wayfinder'),
-    'server' => variable_get('ding_wayfinder_server',''),
+    'server' => variable_get('ding_wayfinder_server', ''),
   );
   $data = array('ding_wayfinder' => array('settings' => $settings,'clients' => $clientsJS));
   drupal_add_js($data,'setting');
 
-  $libpath = drupal_get_path('module', 'ding_wayfinder').'/lib/php-websocket/client/js/';
-
-  drupal_add_js($libpath . 'json2.js');
-  drupal_add_js($libpath . 'swfobject.js');
-  drupal_add_js($libpath . 'FABridge.js');
-  drupal_add_js($libpath . 'web_socket.js');
-  drupal_add_js($libpath . 'webpush.js');
-  drupal_add_js('WEB_SOCKET_SWF_LOCATION = "/'.$libpath.'WebSocketMain.swf";','inline');
-  drupal_add_js(drupal_get_path('module', 'ding_wayfinder').'/js/admin.js');
+  drupal_add_js(drupal_get_path('module', 'ding_wayfinder') . '/js/client/webpush.js');
+  drupal_add_js(drupal_get_path('module', 'ding_wayfinder') . '/js/admin.js');
 
   // build client list
-  $output = '<p class="connection_status">'.t('Status: <span> Trying to connect...</span>').'</p>';
-  $output .= theme('table',array(t('Clients'),t('Status'),t('Reloaded last'),t('Last answer'),t('Remove')),$rows);
-  $output .= theme('button',array('#id' => 'reload', '#value' => t('Update clients'), '#type' => 'submit', '#button_type' => 'submit'));
-  $output .= theme('button',array('#id' => 'reload_list', '#value' => t('Reload client list'), '#type' => 'submit', '#button_type' => 'submit'));
+  $output = '<p class="connection_status">' . t('Status: <span> Trying to connect...</span>') . '</p>';
+  $output .= theme('table', array(t('Clients'), t('Status'), t('Reloaded last'), t('Last answer'), t('Remove')), $rows);
+  $output .= theme('button', array('#id' => 'reload', '#value' => t('Update clients'), '#type' => 'submit', '#button_type' => 'submit'));
+  $output .= theme('button', array('#id' => 'reload_list', '#value' => t('Reload client list'), '#type' => 'submit', '#button_type' => 'submit'));
 
   return $output;
 }
 
 function ding_wayfinder_clients_remove($library,$client) {
-  $clients = unserialize(variable_get('ding_wayfinder_clients_'.$library,array()));
+  $clients = unserialize(variable_get('ding_wayfinder_clients_' . $library, array()));
   unset($clients[$client]);
-  variable_set('ding_wayfinder_clients_'.$library,serialize($clients));
+  variable_set('ding_wayfinder_clients_' . $library, serialize($clients));
   drupal_goto();
 }
 
@@ -177,7 +169,7 @@ function ding_wayfinder_cache() {
   index.html
   css/layout.css
   css/ios.css
-  #".time()."
+  #" . time() . "
 ";
 
 }
@@ -189,50 +181,50 @@ function ding_wayfinder_frontend() {
 
   $modulekey = 'ding_wayfinder';
 
-$files = file_scan_directory(drupal_get_path('module', $modulekey).'/css/client', '.css');
-foreach ($files as $file) {
-  drupal_add_css($file->filename);
-}
-$css = drupal_add_css();
-
-foreach ($css['all']['module'] as $key => $line) {
-  if (!strpos($key, $modulekey)) {
-   unset($css['all']['module'][$key]);
+  $files = file_scan_directory(drupal_get_path('module', $modulekey).'/css/client', '.css');
+  foreach ($files as $file) {
+    drupal_add_css($file->filename);
   }
-}
+  $css = drupal_add_css();
 
-$data = ding_wayfinder_get_keywords(arg(1));
-
-// join floors up on keywords
-// for each keyword add to data array. (Sorted floor weight, then keyword weight.) if floor is diffrent from previous floor, make new floor in data array.
-
-$settings = array(
-	'wayfinder_path' => drupal_get_path('module','ding_wayfinder'),
-	'launched' => format_date(time()),
-        'device_identifier' => md5(time()),
-	'server' => variable_get('ding_wayfinder_server', ''),
-);
-
-$data = array('ding_wayfinder' => array('data' => $data,'settings' => $settings));
-
-drupal_add_js($data,'setting');
-
-$files = file_scan_directory(drupal_get_path('module', $modulekey).'/js/client', '.js');
-foreach ($files as $file) {
-  drupal_add_js($file->filename);
-}
-$js = drupal_add_js();
-
-foreach ($js['module'] as $key => $line) {
-  if (!strpos($key, $modulekey)) {
-   unset( $js['module'][$key]);
+  foreach ($css['all']['module'] as $key => $line) {
+    if (!strpos($key, $modulekey)) {
+     unset($css['all']['module'][$key]);
+    }
   }
-}
 
-$styles = drupal_get_css($css);
-$scripts = drupal_get_js('header', $js);
+  $data = ding_wayfinder_get_keywords(arg(1));
 
-  echo theme('ding_wayfinder_frontend_build',$styles,$scripts);
+  // join floors up on keywords
+  // for each keyword add to data array. (Sorted floor weight, then keyword weight.) if floor is diffrent from previous floor, make new floor in data array.
+
+  $settings = array(
+    'wayfinder_path' => drupal_get_path('module', 'ding_wayfinder'),
+    'launched' => format_date(time()),
+    'device_identifier' => md5(time()),
+    'server' => variable_get('ding_wayfinder_server', ''),
+  );
+
+  $data = array('ding_wayfinder' => array('data' => $data,'settings' => $settings));
+
+  drupal_add_js($data,'setting');
+
+  $files = file_scan_directory(drupal_get_path('module', $modulekey).'/js/client', '.js');
+  foreach ($files as $file) {
+    drupal_add_js($file->filename);
+  }
+  $js = drupal_add_js();
+
+  foreach ($js['module'] as $key => $line) {
+    if (!strpos($key, $modulekey)) {
+     unset( $js['module'][$key]);
+    }
+  }
+
+  $styles = drupal_get_css($css);
+  $scripts = drupal_get_js('header', $js);
+
+  echo theme('ding_wayfinder_frontend_build', $styles, $scripts);
 }
 
 function ding_wayfinder_get_keywords($lib) {
@@ -388,7 +380,7 @@ function ding_wayfinder_weight_view_weight_form_wayfinder_page_2_drag_submit($fo
       exit();
       break; 
     case 'edit-back-link':
-      drupal_goto(url('/admin/settings/wayfinder/' .  arg(3)));
+      drupal_goto(url('/admin/settings/wayfinder/' . arg(3)));
       exit();
       break;
   }
