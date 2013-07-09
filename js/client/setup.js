@@ -77,7 +77,6 @@ jQuery(function ($) {
 
           global.activeKeywordId = $(this).attr('data-id');
           changeFloor(floorid);
-          ll.d(global.activeFloor, 'floor');
           $('.keywords > li > ul').hide().removeClass('activeFloor');
           $('.keywords > li:eq(' + global.activeFloor + ') > ul').show().addClass('activeFloor');
 
@@ -105,7 +104,6 @@ jQuery(function ($) {
 
 
   function onFloorChange(floorIndex) {
-    ll.d('floor changed');
     $('.topbar .aggregate').removeClass('act');
     // if floor is not initial floor
     if (floorIndex != initialFloor) {
@@ -136,6 +134,7 @@ jQuery(function ($) {
 
   function changeFloorPlan(index, reset) {
     onFloorChange(index);
+    $('.keywords > li > ul').scrollTop(0);
     $('.keywords > li > ul').hide().removeClass('activeFloor');
 
     // if target layer contains same id, select that id
@@ -236,9 +235,6 @@ jQuery(function ($) {
 
 
   function scrollBack() {}
-
-
-  ll.d(Drupal.settings.ding_wayfinder.settings.wayfinder_path);
 
   if (isAdminApp) {
     // show a diffrent app icon
