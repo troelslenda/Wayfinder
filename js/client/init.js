@@ -1,7 +1,7 @@
 
 var global = this;
 
-dwf = {
+dwf_init = {
   'init' : function(){
     // initial checks and event listeners
     global.isiPad = navigator.userAgent.match(/iPad/i) != null;
@@ -18,9 +18,9 @@ dwf = {
       return false;
     }
     window.addEventListener("orientationchange", function() {
-      dwf.orientation();
+      dwf_init.orientation();
     }, false);
-    dwf.orientation();
+    dwf_init.orientation();
   },
   'orientation' : function(){
     // if the device is not in landscape mode, exit app with an overlay prompting rotation

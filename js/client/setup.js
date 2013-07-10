@@ -359,5 +359,6 @@ var dwf = {
 
 // bootstap in jQuery scope?
 jQuery(function () {
+  dwf_init.init();
   dwf.init();
 });
