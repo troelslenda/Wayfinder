@@ -181,9 +181,14 @@ function ding_wayfinder_frontend() {
 
   $modulekey = 'ding_wayfinder';
 
-  $files = file_scan_directory(drupal_get_path('module', $modulekey).'/css/client', '.css');
+  $files = array(
+    'ios.css',
+    'layout.css',
+    'map.css',
+    'messages.css'
+  );
   foreach ($files as $file) {
-    drupal_add_css($file->filename);
+    drupal_add_css(drupal_get_path('module', $modulekey).'/css/client/' . $file);
   }
   $css = drupal_add_css();
 
@@ -209,9 +214,16 @@ function ding_wayfinder_frontend() {
 
   drupal_add_js($data,'setting');
 
-  $files = file_scan_directory(drupal_get_path('module', $modulekey).'/js/client', '.js');
+  $files = array(
+    'init.js',
+    'jquery.js',
+    'll.js',
+    'setup.js',
+    'webpush.js',
+    'websocket.js'
+  );
   foreach ($files as $file) {
-    drupal_add_js($file->filename);
+    drupal_add_js(drupal_get_path('module', $modulekey).'/js/client/' . $file);
   }
   $js = drupal_add_js();
 
